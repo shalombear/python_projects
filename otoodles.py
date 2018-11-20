@@ -1,12 +1,20 @@
-"""A module of useful tools
+"""
+A module of useful tools
 
 functions
     ordinal -- form an ordinal number
+    #The returned ordinal is a string representing the convention for writing
+    #ordinal numbers in English. I plan to add multi-language functionality
+    #in the future
+                    parameters:
+                        cardinal (int)
+                    returns:
+                        ordinal (str)
     
-    capitalizer -- render the first letter in the string uppercase and the remainder lowercase
-
-    quote_stripper -- check if string begins and ends with single or double quotes
-                  strip them
+    quote_stripper -- check if string begins and ends with single
+                      or double quotes and strip them
+#N.B. in order to work the string must be sandwiched from both ends by the quote
+#marks and they must be of the same type                      
                         parameters:
                             string (str)
                         returns:
@@ -27,7 +35,7 @@ functions
                                 returns:
                                     boolean (bool)
                                     
-    dict_maker -- turn a list into a dictionary with keys (1,2,3...)
+    dict_maker -- turn an iterable object into a dictionary with keys (1,2,3...)
                         parameters:
                             lister (any iterable object)
                         returns:
@@ -37,6 +45,8 @@ functions
                           create class based on table
                           transmogrify each line into an object in the class
                           return the class and its objects
+    #It is assumed that the first row in the file contains the column headers
+    #I plan to add functionality for the second row to define types
                                 parameters:
                                     filename (str)
                                     classname (str)
@@ -86,30 +96,21 @@ def ordinal(cardinal):
     ordinal = str(cardinal)+ender
     return ordinal
 
-def capitalizer(string):
-    """
-    render the first letter in the string uppercase and the remainder lowercase
-        parameters:
-            string (str)
-        returns:
-            newstring (str)
-    """
-
-    newstring = string[0].upper()
-    newstring += string[1:].lower()
-    return newstring
-
 def quote_stripper(string):
     """
-    check if string begins and ends with single or double quotes
-    strip them
+    check if string begins and ends with single or double quotes and strip them
+    #N.B. in order to work the string must be sandwiched from both
+    #ends by the quote marks and they must be of the same type
         parameters:
             string (str)
         returns:
             newstring (str)
     """
 
+    #check if the string meets the conditions for a stripping
     if string[0] == string[-1] and (string[0] == '"' or string[0] == "'"):
+
+    #construct and return the new string
         newstring = string[1:-1]
     else:
         newstring = string
@@ -125,10 +126,10 @@ def camelcaser(string, delimiter=" "):
             word (str)
     """
 
-    wordlist = string.split(delimiter)
+    wordlist = string.title().split(delimiter)
     newstring = ""
     for word in wordlist:
-        newstring += capitalizer(word)
+        newstring += word
     return newstring
 
 def string2boolean_parser(string):
@@ -169,6 +170,8 @@ def table2class_parser(filename, classname, delimiter = ',', coder = 'utf-8'):
     create class based on table
     transmogrify each line into an object in the class
     return the class and its objects
+    #It is assumed that the first row in the file contains the column headers
+    #I plan to add functionality for the second row to define types
         parameters:
             filename (str)
             classname (str)
@@ -181,7 +184,7 @@ def table2class_parser(filename, classname, delimiter = ',', coder = 'utf-8'):
     file = open(filename, encoding = 'utf-8')
     firstline = file.readline()
     attributelist = firstline.split(delimiter)
-    classname = capitalizer(classname)
+    classname = camelcaser(classname)
     classlist = []
 
     #cleanup time.
