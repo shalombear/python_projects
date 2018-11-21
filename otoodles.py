@@ -10,6 +10,15 @@ functions
                         cardinal (int)
                     returns:
                         ordinal (str)
+
+    D -- turn a number into a decimal
+    #this is pretty much just the Decimal class from the decimal library
+    #which is why it's capitalized. It's primary purpose is to reduce keystrokes
+    #by automating the conversion of the integer or float into a string
+                parameters:
+                    num (int OR float)
+                returns:
+                    decimal (object in Decimal class)
     
     quote_stripper -- check if string begins and ends with single
                       or double quotes and strip them
@@ -56,7 +65,9 @@ functions
                                     classlist (list)
 """
 
+#importing libraries
 import acceptors as acc
+from decimal import Decimal
 
 def ordinal(cardinal):
     """
@@ -95,6 +106,20 @@ def ordinal(cardinal):
     #We construct the ordinal number as a string and return it
     ordinal = str(cardinal)+ender
     return ordinal
+
+def D(num):
+    """
+   #this is pretty much just the Decimal class from the decimal library
+    #which is why it's capitalized. It's primary purpose is to reduce keystrokes
+    #by automating the conversion of the integer or float into a string
+                parameters:
+                    num (int OR float)
+                returns:
+                    decimal (object in Decimal class)
+    """
+    #stringifying and decimalizing
+    decimal = Decimal(str(num))
+    return decimal
 
 def quote_stripper(string):
     """
