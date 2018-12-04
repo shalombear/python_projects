@@ -4,8 +4,8 @@ module covering the basic operations of linear algebra
         vect -- vectors in Euclidean space
             methods:
                 __init__ -- instantiate a vector in Euclidean space
-                __repr__
-                __add__
+                __repr__ -- 
+                __add__ -- 
 """
 
 #importing libraries
@@ -19,8 +19,13 @@ from otoodles import D
 class Vector:
     """
     vector in Euclidean Space
+        attributes:
+            size -- the number of components in the vector
+            length -- 
         methods:
-            __init__
+            __init__ -- instantiate a vector in Euclidean space
+                parameters:
+                    entry (None or str='manual' or list)
             __repr__
             __add__
     """
@@ -28,7 +33,9 @@ class Vector:
     #instantiation
     def __init__(self, entry=None):
         """
-        In vector in Euclidean space
+        instantiate a vector in Euclidean space
+            parameters:
+                entry (None or str='manual' or list)
             
         
         """

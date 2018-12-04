@@ -36,7 +36,8 @@ functions
                         returns:
                             word (str)
 
-    string2boolean_parser -- convert strings 'True' or 'T' and 'False' or 'F' into boolean values
+    string2boolean_parser -- convert strings 'True' or 'T' and 'False' or 'F'
+                             to boolean values
                              case-insensitive
                              all other values raise ValueError
                                 parameters:
