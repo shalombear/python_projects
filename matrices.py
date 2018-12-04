@@ -1,12 +1,11 @@
 """
-A module covering the basic operations of linear algebra
+module covering the basic operations of linear algebra
     classes:
         vect -- vectors in Euclidean space
             methods:
-                __init__ -- initialization can be manual or computer-generated
-                    args:
-                        inputs (list) [default: 'manual' (str)]
-                length
+                __init__ -- instantiate a vector in Euclidean space
+                __repr__
+                __add__
 """
 
 #importing libraries
@@ -17,9 +16,28 @@ import acceptors as acc
 from otoodles import D
 
 #define the vector class
-class vect:
+class Vector:
+    """
+    vector in Euclidean Space
+        methods:
+            __init__
+            __repr__
+            __add__
+    """
 
-    #initialization is manual or computer-generated
-    def __init__(self, inputs='manual'):
-        if inputs == 'manual':
-            pass
+    #instantiation
+    def __init__(self, entry=None):
+        """
+        In vector in Euclidean space
+            
+        
+        """
+
+        #a vector is a list
+        #default creation is the zero vector.
+        self.size = 
+        self.array = [0 for i in range(size)]
+        if entry is None:
+            for i in range(size)
+        
+        

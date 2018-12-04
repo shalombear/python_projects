@@ -13,7 +13,7 @@ functions
 
     D -- turn a number into a decimal
     #this is pretty much just the Decimal class from the decimal library
-    #which is why it's capitalized. It's primary purpose is to reduce keystrokes
+    #which is why it's capitalized. primary purpose is to reduce keystrokes
     #by automating the conversion of the integer or float into a string
                 parameters:
                     num (int OR float)
@@ -110,7 +110,7 @@ def ordinal(cardinal):
 def D(num):
     """
    #this is pretty much just the Decimal class from the decimal library
-    #which is why it's capitalized. It's primary purpose is to reduce keystrokes
+    #which is why it's capitalized. primary purpose is to reduce keystrokes
     #by automating the conversion of the integer or float into a string
                 parameters:
                     num (int OR float)
