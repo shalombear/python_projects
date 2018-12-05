@@ -1,7 +1,7 @@
 """
 module covering the basic operations of linear algebra
     classes:
-        vect -- vectors in Euclidean space
+        Vector -- vectors in Euclidean space
             methods:
                 __init__ -- instantiate a vector in Euclidean space
                 __repr__ -- 
@@ -12,8 +12,9 @@ module covering the basic operations of linear algebra
 import otoodles
 import acceptors as acc
 
-#this function/class will be used a lot
+#these functions and classes will be used a lot
 from otoodles import D
+from math import sqrt
 
 #define the vector class
 class Vector:
@@ -28,23 +29,59 @@ class Vector:
                     entry (None or str='manual' or list)
             __repr__
             __add__
+                parameters:
+                    other (Vector)
+                returns:
+                    sum (vector)
+                
+            dot_product --
+                parameters:
+                    other (Vector)
+                returns:
+                    dotprod (number)
     """
 
     #instantiation
-    def __init__(self, entry=None):
+    def __init__(self, entry):
         """
         instantiate a vector in Euclidean space
             parameters:
-                entry (None or str='manual' or list)
+                entry (list)
             
-        
         """
 
         #a vector is a list
-        #default creation is the zero vector.
-        self.size = 
-        self.array = [0 for i in range(size)]
-        if entry is None:
-            for i in range(size)
+        self.size = len(entry)
+        self.array = entry
+        self.length = self.dot_product(self)
+
+    def __repr__(self):
+        rep = "[  "
+        for num in self.array:
+            rep += str(num)+"\t"
+        rep = rep[:-1]
+        rep += "  ]"
+        return rep
+
+    def __add__(self, other):
+        if self.size != other.size:
+            return None
+        else:
+            sum_entry = []
+            for i in range(self.size):
+                sum_entry.append(self.array[i] + other.array[i])
+            sumvect = Vector(sum_entry)
+            return sumvect
+
+    def dot_product(self, other):
+        if self.size != other.size:
+            return None
+        else:
+            dotprod = 0
+            for i in range(self.size):
+                dotprod += self.array[i]*other.array[i]
+            dotprod = sqrt(dotprod)
+            return dotprod
+        
         
         
