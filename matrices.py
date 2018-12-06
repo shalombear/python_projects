@@ -1,11 +1,30 @@
+#To Do:
+#   add Vector methods
+#   update docstrings
+#   time methods
+#   create Matrix class
+
+
 """
 module covering the basic operations of linear algebra
     classes:
         Vector -- vectors in Euclidean space
             methods:
                 __init__ -- instantiate a vector in Euclidean space
-                __repr__ -- 
-                __add__ -- 
+                __repr__ -- representing the vector as a bracketed row
+                        returns:
+                            rep (str)
+                __add__ -- vector addition
+                    parameters:
+                        other (Vector)
+                    returns:
+                        sum_vect (Vector)
+                __sub__ -- vector subtraction
+                    parameters:
+                        other (Vector)
+                    returns:
+                        diff_vect (Vector)
+                    
 """
 
 #importing libraries
@@ -32,7 +51,7 @@ class Vector:
                 parameters:
                     other (Vector)
                 returns:
-                    sum (vector)
+                    sum_vect (vector)
                 
             dot_product --
                 parameters:
@@ -72,6 +91,16 @@ class Vector:
                 sum_entry.append(self.array[i] + other.array[i])
             sumvect = Vector(sum_entry)
             return sumvect
+
+    def __sub__(self, other):
+        if self.size != other.size:
+            return None
+        else:
+            diff_entry = []
+            for i in range(self.size):
+                diff_entry.append(self.array[i] - other.array[i])
+            diff_vect = Vector(diff_entry)
+            return diff_vect
 
     def dot_product(self, other):
         if self.size != other.size:
