@@ -5,10 +5,15 @@
 #   create Matrix class
 
 
+
 """
 module covering the basic operations of linear algebra
     classes:
         Vector -- vectors in Euclidean space
+            attributes:
+                size (int) [size > 0]
+                length (float)
+                array (list)
             methods:
                 __init__ -- instantiate a vector in Euclidean space
                 __repr__ -- representing the vector as a bracketed row
@@ -24,12 +29,24 @@ module covering the basic operations of linear algebra
                         other (Vector)
                     returns:
                         diff_vect (Vector)
+                __rmul__ -- scalar multiplication
+                    parameters:
+                        scalar (float)
+                    returns:
+                        scaled_vect (Vector)
+                dot_product -- dot product
+                    parameters:
+                        other (Vector)
+                    returns:
+                        dot_product (float)
+                        
                     
 """
 
 #importing libraries
 import otoodles
 import acceptors as acc
+import fractions
 
 #these functions and classes will be used a lot
 from otoodles import D
@@ -75,11 +92,11 @@ class Vector:
         self.length = self.dot_product(self)
 
     def __repr__(self):
-        rep = "[  "
+        rep = "[ "
         for num in self.array:
             rep += str(num)+"\t"
         rep = rep[:-1]
-        rep += "  ]"
+        rep += " ]"
         return rep
 
     def __add__(self, other):
@@ -102,15 +119,22 @@ class Vector:
             diff_vect = Vector(diff_entry)
             return diff_vect
 
+    def __rmul__(self, scalar):
+        scaled_entry = []
+        for i in range(self.size):
+            scaled_entry.append(scalar * self.array[i])
+        scaled_vect = Vector(scaled_entry)
+        return scaled_vect
+
     def dot_product(self, other):
         if self.size != other.size:
             return None
         else:
-            dotprod = 0
+            worker = 0
             for i in range(self.size):
-                dotprod += self.array[i]*other.array[i]
-            dotprod = sqrt(dotprod)
-            return dotprod
+                worker += self.array[i] * other.array[i]
+            dot_product = sqrt(worker)
+            return dot_product
         
         
         
