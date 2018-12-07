@@ -3,6 +3,7 @@
 #   update docstrings
 #   time methods
 #   create Matrix class
+#   create class and functionality for underlying field
 
 
 
@@ -16,6 +17,8 @@ module covering the basic operations of linear algebra
                 array (list)
             methods:
                 __init__ -- instantiate a vector in Euclidean space
+                    parameters:
+                        entry (list)
                 __repr__ -- representing the vector as a bracketed row
                         returns:
                             rep (str)
@@ -29,12 +32,17 @@ module covering the basic operations of linear algebra
                         other (Vector)
                     returns:
                         diff_vect (Vector)
+                __eq__ -- vectors are equal if all their components are equal
+                    parameters:
+                        other (Vector)
+                    returns
+                        equal (bool)
                 __rmul__ -- scalar multiplication
                     parameters:
                         scalar (float)
                     returns:
                         scaled_vect (Vector)
-                dot_product -- dot product
+                dot_product -- dot product of two vectors
                     parameters:
                         other (Vector)
                     returns:
@@ -74,7 +82,7 @@ class Vector:
                 parameters:
                     other (Vector)
                 returns:
-                    dotprod (number)
+                    dot_product (float)
     """
 
     #instantiation
@@ -92,11 +100,12 @@ class Vector:
         self.length = self.dot_product(self)
 
     def __repr__(self):
-        rep = "[ "
+        rep = "<"
         for num in self.array:
-            rep += str(num)+"\t"
+            worker = " {}  ".format(num)
+            rep += worker
         rep = rep[:-1]
-        rep += " ]"
+        rep += ">"
         return rep
 
     def __add__(self, other):
@@ -118,6 +127,14 @@ class Vector:
                 diff_entry.append(self.array[i] - other.array[i])
             diff_vect = Vector(diff_entry)
             return diff_vect
+
+    def __eq__(self, other):
+        if self.size != other.size:
+            return False
+        for i in range(self.size):
+            if self.array[i] != other.array[i]:
+                return False
+        return True
 
     def __rmul__(self, scalar):
         scaled_entry = []
