@@ -6,7 +6,6 @@
 #   create class and functionality for underlying field
 
 
-
 """
 module covering the basic operations of linear algebra
     classes:
@@ -47,11 +46,17 @@ module covering the basic operations of linear algebra
                         other (Vector)
                     returns:
                         dot_product (float)
+                angle -- angle between two vectors
+                    parameters:
+                        other (Vector)
+                    returns:
+                        theta (float) [measured in radians]
                         
                     
 """
 
 #importing libraries
+import math
 import otoodles
 import acceptors as acc
 import fractions
@@ -152,6 +157,13 @@ class Vector:
                 worker += self.array[i] * other.array[i]
             dot_product = sqrt(worker)
             return dot_product
-        
+
+    def angle(self, other, unit='radians'):
+        if self.size != other.size:
+            return None
+        else:
+            theta = math.acos(self.dot_product(other) / (self.length * other.length))
+            if 
+            return theta
         
         
