@@ -17,6 +17,9 @@ class TreeNode:
             add_child -- add a child to the node
                 parameters:
                     value (any type)
+            remove_child -- remove a child from the node
+                parameters:
+                    child (TreeNode)
     """
 
     def __init__(self, value):
@@ -29,6 +32,26 @@ class TreeNode:
         self.value = value
         self.children = []
 
+    def __repr__(self, level=0):
+        """
+        represent the node's subtree as a string
+            returns:
+                rep (str)
+                level (int >= 0) [default=0]
+        """
+
+        worker = ""
+        worker += "-->" * level
+        worker += str(self.value)
+        worker += "\n"
+
+        #recursion
+        for child in self.children:
+            worker += child.__repr__(level+1)
+
+        rep = worker
+        return rep
+
     def add_child(self, child):
         """
         add a child node
@@ -37,3 +60,13 @@ class TreeNode:
         """
 
         self.children.append(child)
+
+    def remove_child(self, child):
+        """
+        remove a child node
+            parameters:
+                child (TreeNode)
+        """
+
+        new_children = [obj for obj in self.children if obj != child]
+        self.children = new_children
