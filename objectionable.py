@@ -589,3 +589,14 @@ class TreeNode:
 
         new_children = [obj for obj in self.children if obj != child]
         self.children = new_children
+
+    def traverse(self):
+        """iterate through the node's subtree in a depth-first manner"""
+
+        lister = []
+        lister.append(self.value)
+
+        for child in self.children:
+            lister += child.traverse()
+
+        return lister
