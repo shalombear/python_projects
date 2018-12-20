@@ -279,6 +279,9 @@ class Stack:
             __init__ -- instantiation
                 parameters:
                     bottom_value (any type) [default=None]
+            is_empty --
+                returns:
+                    is (bool)
             push -- add a value to the top of the stack
                 parameters:
                     value (any type)
@@ -311,6 +314,11 @@ class Stack:
         else:
             self.top_item = None
 
+    def is_empty(self):
+
+        empty = self.top_item is None
+        return empty
+
     #push method
     def push(self, value):
         """
@@ -337,7 +345,7 @@ class Stack:
         """
 
         #call the value if it exists
-        if self.top_item is not None:
+        if not self.is_empty():
             value = self.top_item.value
 
         #otherwise print error message
@@ -358,7 +366,7 @@ class Stack:
         """
 
         #call the value if it exists
-        if self.top_item is not None:
+        if not self.is_empty():
             value = self.top_item.value
             return value
 
@@ -404,6 +412,17 @@ class MeasuredStack(Stack):
 
         #set the limit
         self.limit = limit
+
+    def has_space(self):
+        """
+        check if the stack is not full
+            returns:
+                has (bool)
+        """
+
+        has = self.size < self.limit or self.limit is None
+
+        return has
         
     def push(self, value):
         """
@@ -413,7 +432,7 @@ class MeasuredStack(Stack):
         """
 
         #the stack must not be full
-        if self.limit > self.size or self.limit is None:
+        if self.has_space():
             super().push(value)
             self.size += 1
         else:
@@ -432,3 +451,74 @@ class MeasuredStack(Stack):
         value = super().pop()
 
         return value
+
+
+class Queue:
+    """
+    a FIFO queue
+        attributes:
+            head (Node or None)
+            tail (Node or None)
+            cap (int > 0 or None)
+            size (int >= 0)
+        methods:
+            __init__ -- instantiation
+                parameters:
+                    cap (int > 0 or None) [default=None]
+    """
+
+    #instantiation
+    def __init__(self, cap=None):
+        """instantiate a queue"""
+
+        #line is intitialized in empty state
+        self.head = None
+        self.tail = None
+        self.size = 0
+        self.cap = cap
+
+    def is_empty(self):
+
+        empty = self.size == 0
+        return empty
+
+    def is_full(self):
+        
+        full = self.size == self.cap and self.cap is not None
+        return full
+
+    def peek(self):
+        if self.is_empty():
+            print("Queue is empty")
+        else:
+            return self.head.value
+
+    def enqueue(self, value):
+
+        if not self.is_full():
+            new_item = Node(value)
+            print("Adding {} to the queue".format(new_item.value))
+
+            if self.is_empty():
+                self.head = new_item
+
+            else:
+                self.tail.set_link(new_item)
+
+            self.tail = new_item
+            self.size += 1
+
+        else:
+            print("Queue is full")
+
+    def dequeue(self):
+
+        if not self.is_empty():
+            value = self.head.value
+            self.head = self.head.get_link()
+            self.size -= 1
+            return value
+
+        else:
+            print("Queue is empty")
+
