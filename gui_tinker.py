@@ -2,27 +2,41 @@
 a module model for designing GUI-based apps
 """
 
-#importing libraries
+# importing libraries
 from tkinter import *
 
-#creating a root window for the program
-root = Tk()
+# a function for creating root window with a frame
+def create_frame(title, width, height):
 
-#modifying root window attributes
+    root = Tk()
+    root.title(title)
+    root.geometry(str(width) + 'x' + str(height))
 
-#title
-root.title("Hello Gooey")
+    app = Frame(root)
+    app.pack()
 
-#size
-root.geometry("300x200")
+    return root, app
 
-#creating a frame
-app = Frame(root)
+# a class for creating a root window with a frame
+class App:
 
-#fitting the frame to the root
-app.pack()
+    # instantiation
+    def __init__(self, title="untitled", width=500, height=500):
 
-#a class for gridding a label with text to a frame
+        # creating a root window for the program
+        # modifying attributes
+
+        root, app = create_frame(title, width, height)
+        
+        # declaring attributes
+        self.root = root
+        self.appframe = app
+
+    #running the app
+    def run(self):
+        self.root.mainloop()     
+
+#a class for packing a label with text to a frame
 class Lbl:
 
     #instantiation
@@ -31,10 +45,10 @@ class Lbl:
         #instantiate label with frame and text
         lbl = Label(frame, text=lbltext)
 
-        #grid to frame
+        #pack to frame
         lbl.pack()
 
-#a class for gridding a button with text to a frame
+#a class for packing a button with text to a frame
 class Btn:
 
     #instantiation
@@ -43,7 +57,7 @@ class Btn:
         #instantiate Button with frame and text
         btn = Button(frame, text=btntext)
 
-        #grid to frame
+        #pack to frame
         btn.pack()
 
 #examples
@@ -54,9 +68,6 @@ Hello world!
 Hellooooo nurse!
 """
 
-lbl1 = Lbl(app, hello_txt)
-btn1 = Btn(app, "I'm a button!")
-btn2 = Btn(app, "I'm a button too!")
-
-#running the root
-root.mainloop()
+##lbl1 = Lbl(app, hello_txt)
+##btn1 = Btn(app, "I'm a button!")
+##btn2 = Btn(app, "I'm a button too!")
