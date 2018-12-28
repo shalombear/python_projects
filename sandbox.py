@@ -2,71 +2,68 @@
 sandbox for designing, building, and testing blocks of code
 """
 
+"""
+a module model for designing GUI-based apps
+"""
 
-#node objects for use in tree structures
-class TreeNode:
-    """
-    a node in a tree
-        attributes:
-            value (any type)
-            children (list)
-        methods:
-            __init__ -- instantiation
-                parameters:
-                    value (any type)
-            add_child -- add a child to the node
-                parameters:
-                    value (any type)
-            remove_child -- remove a child from the node
-                parameters:
-                    child (TreeNode)
-    """
+# importing libraries
+from tkinter import *
 
-    def __init__(self, value):
-        """
-        instantiate a TreeNode object
-            parameters:
-                value (any type)
-        """
+# a function for creating root window with a frame
+def create_frame(title, width, height):
 
-        self.value = value
-        self.children = []
+    root = Tk()
+    root.title(title)
+    root.geometry(str(width) + 'x' + str(height))
 
-    def __repr__(self, level=0):
-        """
-        represent the node's subtree as a string
-            returns:
-                rep (str)
-                level (int >= 0) [default=0]
-        """
+    app = Frame(root)
+    app.pack()
 
-        worker = ""
-        worker += "-->" * level
-        worker += str(self.value)
-        worker += "\n"
+    return root, app
 
-        #recursion
-        for child in self.children:
-            worker += child.__repr__(level+1)
+def do_the_thing(thing="The thing"):
+    print(str(thing) + " has been done!")
 
-        rep = worker
-        return rep
+# a class for creating a root window with a frame
+class App:
 
-    def add_child(self, child):
-        """
-        add a child node
-            parameters:
-                child (TreeNode)
-        """
+    # instantiation
+    def __init__(self, title="untitled", width=500, height=500):
 
-        self.children.append(child)
+        # creating a root window for the program
+        # modifying attributes
 
-    def remove_child(self, child):
-        """
-        remove a child node
-            parameters:
-                child (TreeNode)
-        """
+        root, app = create_frame(title, width, height)
+        
+        # declaring attributes
+        self.root = root
+        self.appframe = app
 
-        new_children = [obj for obj in self.children if obj != child]
-        self.children = new_children
+    #running the app
+    def run(self):
+        self.root.mainloop()     
+
+#a class for packing a label with text to a frame
+class Lbl:
+
+    #instantiation
+    def __init__(self, frame, lbltext):
+
+        #instantiate label with frame and text
+        lbl = Label(frame, text=lbltext)
+
+        #pack to frame
+        lbl.pack()
+
+#a class for packing a button with text to a frame
+class Btn:
+
+    #instantiation
+    def __init__(self, frame, btntext):
+
+        #instantiate Button with frame and text
+        btn = Button(frame, text=btntext)
+
+        #pack to frame
+        btn.pack()
+

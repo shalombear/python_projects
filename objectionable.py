@@ -39,16 +39,16 @@ Classes and functions for mathematical objects of all types
 
 """
 
-#importing libraries
+# importing libraries
 import math
 import random
 
-#importing functions
+# importing functions
 from math import sqrt
 from otoodles import D
 
-#graphs
-#the graph vertex class
+# graphs
+# the graph vertex class
 class Vertex:
     """
     vertices of a graph
@@ -62,23 +62,23 @@ class Vertex:
                     other (Vertex)
     """
 
-    #instantiation
+    # instantiation
     def __init__(self, value=None):
         """instantiate a vertex of a graph"""
         self.value = value
 
-        #object instantiates with an empty container for the edges
+        # object instantiates with an empty container for the edges
         self.edges = []
 
-    #string representation
+    # string representation
     def __repr__(self):
         """string representation of a graph vertext"""
 
-        #need to put more thought into how this is going down
+        # need to put more thought into how this is going down
         rep = str(self.value)
         return rep
 
-    #method to add an edge to the graph
+    # method to add an edge to the graph
     def add_edge(self, other):
         """
         add an edge to the graph between self and other
@@ -118,7 +118,7 @@ class Graph:
                 if [vertex, edge] not in edgelist and [edge, vertex] not in edgelist:
                     edgelist.append(vertex, edge)
             
-#the Node class will be used to implement data structures
+# the Node class will be used to implement data structures
 class Node:
     """
     a node in a linked list
@@ -144,7 +144,7 @@ class Node:
                     value (any type)
     """
 
-    #instantiation
+    # instantiation
     def __init__(self, value, link_node=None):
         """
         instantiate a node object
@@ -157,7 +157,7 @@ class Node:
         self.value = value
         self.link_node = link_node
 
-    #representation
+    # representation
     def __repr__(self):
         """
         string representation of the Node object
@@ -172,7 +172,7 @@ class Node:
         rep = "Data: \t{}\nLink: \t{}".format(self.value, linker)
         return rep
 
-    #linking nodes
+    # linking nodes
     def set_link(self, link_node):
         """
         assign a link to a node
@@ -182,7 +182,7 @@ class Node:
         
         self.link_node = link_node
 
-    #retrieving linked node
+    # retrieving linked node
     def get_link(self):
         """
         retrieve a link node
@@ -192,7 +192,7 @@ class Node:
 
         return self.link_node
 
-    #retrieving node's stored value
+    # retrieving node's stored value
     def get_value(self):
         """
         retrieve the value from a node
@@ -220,7 +220,7 @@ class LinkedList:
                     new_value
         """
 
-    #instantiation
+    # instantiation
     def __init__(self, value=None):
         """
         instantiate a linked list
@@ -228,10 +228,10 @@ class LinkedList:
                 value (any type) [default=None]
         """
 
-        #the value passed in is used to create the head node
+        # the value passed in is used to create the head node
         self.head = Node(value)
 
-    #representation
+    # representation
     def __repr__(self):
         """
         represent the object as a string
@@ -239,13 +239,13 @@ class LinkedList:
                 rep (str)
         """
 
-        #start with an empty string
+        # start with an empty string
         rep = ""
 
-        #beginning at the head
+        # beginning at the head
         current_node = self.head
 
-        #iterate through the list and concatenate the values
+        # iterate through the list and concatenate the values
         while current_node:
             if current_node.get_value() != None:
                 rep += str(current_node.get_value())
@@ -253,7 +253,7 @@ class LinkedList:
                 current_node = current_node.get_link()
         return rep
 
-    #adding a new head to the list
+    # adding a new head to the list
     def insert_head(self, new_value):
         """
         add a new head node to the list
@@ -261,13 +261,13 @@ class LinkedList:
                 new_value (any type)
         """
 
-        #instantiate the new  node
+        # instantiate the new  node
         new_node = Node(new_value)
 
-        #link to the current head node
+        # link to the current head node
         new_node.set_link(self.head)
 
-        #assign as the new head
+        # assign as the new head
         self.head = new_node
 
 class Stack:
@@ -294,7 +294,7 @@ class Stack:
                     value (any type)
     """
 
-    #instantiation
+    # instantiation
     def __init__(self, bottom_value=None):
         """
         instantiate a LIFO stack
@@ -302,15 +302,15 @@ class Stack:
                 bottom_value (any type) [default=None]
         """
         
-        #this attribute represents the top item
-        #the value _init_ially stored is the first_in element,
-        #the bottom of the stack
+        # this attribute represents the top item
+        # the value _init_ially stored is the first_in element,
+        # the bottom of the stack
 
-        #stack can be instantiated with one object
+        # stack can be instantiated with one object
         if bottom_value is not None:
             self.top_item = Node(bottom_value)
 
-        #or empty
+        # or empty
         else:
             self.top_item = None
 
@@ -319,7 +319,7 @@ class Stack:
         empty = self.top_item is None
         return empty
 
-    #push method
+    # push method
     def push(self, value):
         """
         add a value to the top of the stack
@@ -327,16 +327,16 @@ class Stack:
                 value (any type)
         """
 
-        #create node
+        # create node
         node = Node(value)
 
-        #link to top
+        # link to top
         node.set_link(self.top_item)
 
-        #node is new top
+        # node is new top
         self.top_item = node
 
-    #pop method
+    # pop method
     def pop(self):
         """
         remove and return top item on stack
@@ -344,20 +344,20 @@ class Stack:
                 value (any type)
         """
 
-        #call the value if it exists
+        # call the value if it exists
         if not self.is_empty():
             value = self.top_item.value
 
-        #otherwise print error message
+        # otherwise print error message
         else:
             print("Stack is empty")
             return None
 
-        #set new top item and return value
+        # set new top item and return value
         self.top_item = self.top_item.link_node
         return value
 
-    #peek method
+    # peek method
     def peek(self):
         """
         call top value without removing from stack
@@ -365,12 +365,12 @@ class Stack:
                 value (any type)
         """
 
-        #call the value if it exists
+        # call the value if it exists
         if not self.is_empty():
             value = self.top_item.value
             return value
 
-        #otherwise print error message
+        # otherwise print error message
         else:
             print("Stack is empty")
             
@@ -390,7 +390,7 @@ class MeasuredStack(Stack):
                     limit (int > 0) [default=None]
     """
 
-    #instantiation
+    # instantiation
     def __init__(self, bottom_value=None, limit=None):
         """
         instantiate a measured stack object
@@ -399,18 +399,18 @@ class MeasuredStack(Stack):
                 limit (int > 0) [default=None]
         """
 
-        #a stack can be instantiated empty
+        # a stack can be instantiated empty
         if bottom_value is None:
             self.size = 0
 
-        #or with a single object
+        # or with a single object
         else:
             self.size = 1
 
-        #call the parent method to instantiate
+        # call the parent method to instantiate
         super().__init__(bottom_value)
 
-        #set the limit
+        # set the limit
         self.limit = limit
 
     def has_space(self):
@@ -431,7 +431,7 @@ class MeasuredStack(Stack):
                 value (any type)
         """
 
-        #the stack must not be full
+        # the stack must not be full
         if self.has_space():
             super().push(value)
             self.size += 1
@@ -445,7 +445,7 @@ class MeasuredStack(Stack):
                 value (any type)
         """
 
-        #decrement size and invoke the parent method
+        # decrement size and invoke the parent method
         if self.size > 0:
             self.size -= 1
         value = super().pop()
@@ -467,11 +467,11 @@ class Queue:
                     cap (int > 0 or None) [default=None]
     """
 
-    #instantiation
+    # instantiation
     def __init__(self, cap=None):
         """instantiate a queue"""
 
-        #line is intitialized in empty state
+        # line is intitialized in empty state
         self.head = None
         self.tail = None
         self.size = 0
@@ -522,7 +522,7 @@ class Queue:
         else:
             print("Queue is empty")
 
-#node objects for use in tree structures
+# node objects for use in tree structures
 class TreeNode:
     """
     a node in a tree

@@ -60,14 +60,3 @@ class Btn:
         #pack to frame
         btn.pack()
 
-#examples
-hello_txt = """
-
-Hello world!
-
-Hellooooo nurse!
-"""
-
-##lbl1 = Lbl(app, hello_txt)
-##btn1 = Btn(app, "I'm a button!")
-##btn2 = Btn(app, "I'm a button too!")

@@ -57,8 +57,6 @@ module covering the basic operations of linear algebra
 
 #importing libraries
 import math
-import otoodles
-import acceptors as acc
 import fractions
 
 #these functions and classes will be used a lot
@@ -163,7 +161,4 @@ class Vector:
             return None
         else:
             theta = math.acos(self.dot_product(other) / (self.length * other.length))
-            if 
             return theta
-        
-        
