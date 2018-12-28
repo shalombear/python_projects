@@ -32,31 +32,30 @@ class App:
         self.root = root
         self.appframe = app
 
-    #running the app
+    # running the app
     def run(self):
         self.root.mainloop()     
 
-#a class for packing a label with text to a frame
-class Lbl:
+# A Label subclass
+class Lbl(Label):
 
-    #instantiation
+    # instantiation
     def __init__(self, frame, lbltext):
 
-        #instantiate label with frame and text
-        lbl = Label(frame, text=lbltext)
+        # instantiate parent class
+        super().__init__(frame, text=lbltext)
 
-        #pack to frame
-        lbl.pack()
+        # pack to frame
+        self.pack()
 
-#a class for packing a button with text to a frame
-class Btn:
+# a Button subclass
+class Btn(Button):
 
-    #instantiation
+    # instantiation
     def __init__(self, frame, btntext):
 
-        #instantiate Button with frame and text
-        btn = Button(frame, text=btntext)
+        # instantiate parent class
+        super().__init__(frame, text=btntext)
 
-        #pack to frame
-        btn.pack()
-
+        # pack to frame
+        self.pack()
