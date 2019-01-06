@@ -1,4 +1,3 @@
-
 # importing functions
 from functools import total_ordering
 
@@ -269,7 +268,8 @@ def roman_numeral_computer(entry):
         args:
             entry (str)
         returns:
-            summand (int)
+            summand (int), or
+            msg (str)
     """
 
     entry = entry.upper()
@@ -291,19 +291,7 @@ def roman_numeral_computer(entry):
 
     # and a Queue object
     queue = Queue()
-
-    # count ones and fives in entry
-    # a one appearing more than thrice or a five more than once raises an error
-    for i in ones:
-        if entry.count(i) > 3:
-            print('Error. Roman numeral cannot ')
-            return None
-
-    for v in fives:
-        if entry.count(v) > 1:
-            print('Error')
-            return None
-
+        
     # check if each symbol is a key in the dictionary
     for symbol in entry:
 
@@ -314,8 +302,10 @@ def roman_numeral_computer(entry):
 
         # otherwise, raise error
         else:
-            print('Error')
-            return None
+            error_idx = find_nth(entry, symbol, 1)
+            msg = 'Error in position {0}\n{1} is not a Roman numeral'
+            msg = msg.format(error_idx, symbol)
+            return msg
         
     # declare base case, cap, trash can, toggle switch, and summand
     last_symbol = RomanNum('O', 10**20)
@@ -325,9 +315,12 @@ def roman_numeral_computer(entry):
     summand = 0
 
     while not queue.is_empty():
+        
 
         # dequeue the first symbol and peek the next one
         current_symbol = queue.dequeue()
+        # alias
+        cur = current_symbol
 
         if not queue.is_empty():
             next_symbol = queue.peek()
@@ -335,39 +328,71 @@ def roman_numeral_computer(entry):
             next_symbol = RomanNum('E', 0)
 
         # current symbol may not be in trash
-        if current_symbol in trash:
-            print('Error.')
-            return None
+        if cur in trash:
+            error_idx = len(entry) - queue.size - 1
+            msg = 'Error in position {0}\n{1} cannot be reused'
+            msg = msg.format(error_idx, cur)
+            return msg
 
         # current symbol may only exceed cap if switch is set
         # in which case add to summand, trash symbol, and reset switch
-        if current_symbol > cap:
+        if cur > cap:
             if next_switch:
-                summand += current_symbol.value
-                trash.append(current_symbol)
+                trash.append(cur)
                 next_switch = False
             else:
-                print('Error')
-                return None
+                error_idx = len(entry) - queue.size - 1
+                msg = 'Error in position {0}\n{1} may not be used here'
+                msg = msg.format(error_idx, cur)
+                return msg
 
-        # next symbol may only exceed current if current symbol is subtractive
-        # other conditions: less than last, not trashed, not a five
-        # outcome: set cap, trash symbol, subtract from summand, set switch
-        if next_symbol > current_symbol:
-            if current_symbol < last_symbol and current_symbol not in trash:
-                trash.append(current_symbol)
-                summand -= current_symbol.value
+        # next symbol may only exceed current if current symbol is subtractive,
+        # less than last, not trashed, and not a five
+        # in which case set cap, trash symbol, subtract value, set switch
+        case = cur < last_symbol and cur not in trash and str(cur) not in fives
+        if cur < next_symbol:
+            if case:
+                cap = cur
+                trash.append(cur)
+                summand -= cur.value
                 next_switch = True
-
             else:
-                print('Error')
-                return None
+                error_idx = len(entry) - queue.size
+                msg = 'Error in position {0}\n{1} may not be used here'
+                msg = msg.format(error_idx, next_symbol)
+                return msg
 
-                
+        # add symbol's value if it has not been subtracted
+        if not next_switch:
+            summand += cur.value
 
-
+        # a five may not appear more than once
+        if str(cur) in fives:
+            trash.append(cur)        
 
         # set current symbol to last
         last_symbol = current_symbol
 
+    # a one appearing more than thrice raises an error
+    for i in ones:
+        if entry.count(i) > 3:
+            error_idx = find_nth(entry, i, 4)
+            msg = 'Error in position {0}\nMaximum 1 instance of {1}'
+            msg = msg.format(error_idx, i)
+            return msg
+
+    # if no error was raised, the Arabic numeral is returned
     return summand
+
+from random import choice, randint
+LIB = 'IVXLCDM'
+
+for i in range(10):
+    testnum = ""
+    for j in range(randint(1,10)):
+        testnum += choice(LIB)
+
+    print("""\n\n*************************
+Now testing: {0}\n
+Test result:
+{1}""".format(testnum, roman_numeral_computer(testnum)))
