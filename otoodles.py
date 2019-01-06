@@ -108,6 +108,31 @@ def ordinal(cardinal):
     ordinal = str(cardinal)+ender
     return ordinal
 
+# method to find a needle in a haystack
+def find_nth(string, sub, n):
+    """search a string and return the nth occurence of a substring
+        args:
+            string (str)
+            sub (str)
+            n (int > 0)
+        returns:
+            sub_idx (int >= 0)
+    """
+
+    # set dummy variable
+    if sub[0] == 'i':
+        replacer = 'j'
+    else:
+        replacer = 'i'
+
+    # loop through n, find substring index, modify string, decrement n    
+    while n > 0:
+        sub_idx = string.find(sub)
+        string = string[:sub_idx] + replacer + string[sub_idx + 1 :]
+        n -= 1
+
+    return sub_idx
+
 def D(num):
     """
    #this is pretty much just the Decimal class from the decimal library

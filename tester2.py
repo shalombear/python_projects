@@ -237,14 +237,43 @@ class RomanNum:
 
 ###################
 
+# method to find a needle in a haystack
+def find_nth(string, sub, n):
+    """search a string and return the nth occurence of a substring
+        args:
+            string (str)
+            sub (str)
+            n (int > 0)
+        returns:
+            sub_idx (int >= 0)
+    """
+
+    # set dummy variable
+    if sub[0] == 'i':
+        replacer = 'j'
+    else:
+        replacer = 'i'
+
+    # loop through n, find substring index, modify string, decrement n    
+    while n > 0:
+        sub_idx = string.find(sub)
+        string = string[:sub_idx] + replacer + string[sub_idx + 1 :]
+        n -= 1
+
+    return sub_idx
+
+
+# main function
 def roman_numeral_computer(entry):
     """check if entry is syntactically valid as a roman number
         args:
             entry (str)
         returns:
-            roman_number (int)
+            summand (int)
     """
 
+    entry = entry.upper()
+        
     # a dictionary containing Roman numerals and their representative values
     roman_dict = {
     'I': 1,
@@ -260,42 +289,85 @@ def roman_numeral_computer(entry):
     ones = ['I', 'X', 'C', 'M']
     fives = ['V', 'L', 'D']
 
-    # and an object
-    inqueue = Queue()
-
-    # check if each symbol is a key in the dictionary
-
-    # if it is, use it and its value to construct and enqueue a RomanNum object
-    # onto the first queue
-
-    # otherwise, raise error
+    # and a Queue object
+    queue = Queue()
 
     # count ones and fives in entry
-    
     # a one appearing more than thrice or a five more than once raises an error
+    for i in ones:
+        if entry.count(i) > 3:
+            print('Error. Roman numeral cannot ')
+            return None
 
-    # next, declare a second queue and iterate through the first one
+    for v in fives:
+        if entry.count(v) > 1:
+            print('Error')
+            return None
 
-    outqueue = Queue()
+    # check if each symbol is a key in the dictionary
+    for symbol in entry:
 
-    # dequeue the first symbol and peek the next one
+        # if so, use to construct and enqueue a RomanNum object
+        if symbol in roman_dict.keys():
+            numeral = RomanNum(symbol, roman_dict[symbol])
+            queue.enqueue(numeral)
 
-    # discards go in bin, declared here
+        # otherwise, raise error
+        else:
+            print('Error')
+            return None
+        
+    # declare base case, cap, trash can, toggle switch, and summand
+    last_symbol = RomanNum('O', 10**20)
+    cap = last_symbol
+    trash = []
+    next_switch = False
+    summand = 0
 
-    # if next symbol is less than or equal to current, proceed
+    while not queue.is_empty():
 
-        #symbol value is positive, symbol goes in bin, symbol goes on outqueue
+        # dequeue the first symbol and peek the next one
+        current_symbol = queue.dequeue()
 
-    # otherwise
+        if not queue.is_empty():
+            next_symbol = queue.peek()
+        else:
+            next_symbol = RomanNum('E', 0)
 
-        # if current symbol is in bin, raise error
+        # current symbol may not be in trash
+        if current_symbol in trash:
+            print('Error.')
+            return None
 
-        # otherwise, proceed
+        # current symbol may only exceed cap if switch is set
+        # in which case add to summand, trash symbol, and reset switch
+        if current_symbol > cap:
+            if next_switch:
+                summand += current_symbol.value
+                trash.append(current_symbol)
+                next_switch = False
+            else:
+                print('Error')
+                return None
 
-            # symbol value is negative, symbol goes in bin, symbol goes on outcue
+        # next symbol may only exceed current if current symbol is subtractive
+        # other conditions: less than last, not trashed, not a five
+        # outcome: set cap, trash symbol, subtract from summand, set switch
+        if next_symbol > current_symbol:
+            if current_symbol < last_symbol and current_symbol not in trash:
+                trash.append(current_symbol)
+                summand -= current_symbol.value
+                next_switch = True
 
-    # create summand
+            else:
+                print('Error')
+                return None
 
-    # iterate through queue and compute summand
+                
 
-    # return summand
+
+
+        # set current symbol to last
+        last_symbol = current_symbol
+
+    return summand
