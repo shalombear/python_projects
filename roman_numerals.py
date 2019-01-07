@@ -178,11 +178,15 @@ class Queue:
             is_empty -- helper method
                 returns:
                     empty (bool)
-            peek -- return head without removing from queue
+            peek -- return the leading value of the queue
                 returns:
-                    
-            enqueue -- add tail
+                    val (any type)
+            enqueue -- add a node to the queue
+                args:
+                    value(any type)
             dequeue -- remove head and return
+                returns:
+                    value (any type)
     """
 
     # instantiation
@@ -252,6 +256,7 @@ class Queue:
         self.tail = new_item
         self.size += 1
 
+    # removing an item from the queue
     def dequeue(self):
         """remove head and return
             returns:

@@ -158,7 +158,7 @@ class Queue:
     def enqueue(self, value):
         """add a node to the queue
             args:
-                
+                value (any type)                
         """
 
         new_item = Node(value)
@@ -173,6 +173,10 @@ class Queue:
         self.size += 1
 
     def dequeue(self):
+        """remove head and return
+            returns:
+                value (any type)
+        """
 
         if not self.is_empty():
             value = self.head.value
@@ -185,7 +189,29 @@ class Queue:
     
 @total_ordering
 class RomanNum:
-    """a Roman numeral"""
+    """a Roman numeral
+        attributes:
+            numeral (str)
+            value (int)
+        methods:
+            __init__ -- instantiation
+                args:
+                    numeral (str)
+                    value (int)
+            __repr__ -- string representation
+                returns:
+                    numeral (str)
+            __lt__ -- order
+                args:
+                    other (RomanNum)
+                returns:
+                    less (bool)
+            __eq__ -- equality
+                args:
+                    other (RomanNum)
+                returns:
+                    equal (bool)
+    """
 
     # instantiation
     def __init__(self, numeral, value):

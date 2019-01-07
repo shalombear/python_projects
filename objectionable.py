@@ -37,6 +37,51 @@ Classes and functions for mathematical objects of all types
                         v1 (Vertex)
                         v2 (Vertex)
 
+        Node -- a node in a linked list
+        attributes:
+            value (any type)
+            link_node (Node or None) [default=None]
+        methods:
+            __init__ -- instantiate a Node object
+                args:
+                    value (any)
+                    link_node (None or None) [default=None]
+            __repr__ -- represent the object as a string
+                returns:
+                    rep (str)
+            set_link -- set a link node
+                args:
+                    link_node (Node)
+            get_link -- retrieve a link node
+                returns:
+                    link_node (Node)
+            get_value -- retrieve the value from a node
+                returns:
+                    value (any type)
+
+    Queue -- a FIFO queue
+       attributes:
+            head (Node or None)
+            tail (Node or None)
+            size (int >= 0)
+        methods:
+            __init__ -- instantiation
+            __repr__ -- string representation
+                returns:
+                    rep (str)
+            is_empty -- helper method
+                returns:
+                    empty (bool)
+            peek -- return the leading value of the queue
+                returns:
+                    val (any type)
+            enqueue -- add a node to the queue
+                args:
+                    value(any type)
+            dequeue -- remove head and return
+                returns:
+                    value (any type)
+
 """
 
 # importing libraries
@@ -465,11 +510,29 @@ class Queue:
             __init__ -- instantiation
                 parameters:
                     cap (int > 0 or None) [default=None]
+            __repr__ -- string representation
+                returns:
+                    rep (str)
+            is_empty -- helper method
+                returns:
+                    empty (bool)
+            peek -- return the leading value of the queue
+                returns:
+                    val (any type)
+            enqueue -- add a node to the queue
+                args:
+                    value(any type)
+            dequeue -- remove head and return
+                returns:
+                    value (any type)
     """
 
     # instantiation
     def __init__(self, cap=None):
-        """instantiate a queue"""
+        """instantiate a queue
+            args:
+                cap (int > 0 or None) [default=None]
+        """
 
         # line is intitialized in empty state
         self.head = None
@@ -477,24 +540,60 @@ class Queue:
         self.size = 0
         self.cap = cap
 
+    # string representation
+    def __repr__(self):
+        """represent queue as a string
+            returns:
+                rep (str)
+        """
+
+        # constructing the representation
+        if self.is_empty():
+            rep = "The queue is empty"
+        else:
+            rep = 'Size: {0}\nHead: {1}'.format(self.size, self.head.value)
+
+        return rep
+
+    # helper method checks if queue is empty
     def is_empty(self):
+        """check if the string is empty
+            returns:
+                empty (bool)"""
 
         empty = self.size == 0
+
         return empty
 
+    # helper method checks if queue is full
     def is_full(self):
+        """check if string is full"""
         
         full = self.size == self.cap and self.cap is not None
+
         return full
 
+    # looking at the head of the queue
     def peek(self):
+        """return the leading value of the queue
+            returns:
+                val (any type)
+        """
+        
         if self.is_empty():
-            print("Queue is empty")
+            val = None
         else:
-            return self.head.value
+            val =  self.head.value
 
+        return val
+
+# adding an item to the queue
     def enqueue(self, value):
-
+        """add a node to the queue if possible
+            args:
+                value (any type)                
+        """
+        
         if not self.is_full():
             new_item = Node(value)
             print("Adding {} to the queue".format(new_item.value))
@@ -511,7 +610,12 @@ class Queue:
         else:
             print("Queue is full")
 
+    # removing an item from the queue
     def dequeue(self):
+        """remove head and return
+            returns:
+                value (any type)
+        """
 
         if not self.is_empty():
             value = self.head.value
@@ -520,7 +624,7 @@ class Queue:
             return value
 
         else:
-            print("Queue is empty")
+            return None
 
 # node objects for use in tree structures
 class TreeNode:
