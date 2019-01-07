@@ -344,10 +344,47 @@ class RomanNum:
         return equal
 
 # # # # # # # # # # # # # # # # # # # # # # # # #
-### PROGRAM OUTLINE
 
-# a dictionary containing the Roman numerals and their representative values
-roman_dict = {
+# method to find a needle in a haystack
+def find_nth(string, sub, n):
+    """search a string and return the nth occurence of a substring
+        args:
+            string (str)
+            sub (str)
+            n (int > 0)
+        returns:
+            sub_idx (int >= 0)
+    """
+
+    # set dummy variable
+    if sub[0] == 'i':
+        replacer = 'j'
+    else:
+        replacer = 'i'
+
+    # loop through n, find substring index, modify string, decrement n    
+    while n > 0:
+        sub_idx = string.find(sub)
+        string = string[:sub_idx] + replacer + string[sub_idx + 1 :]
+        n -= 1
+
+    return sub_idx
+
+
+# main function
+def roman_numeral_computer(entry):
+    """check if entry is syntactically valid as a roman number and compute
+        args:
+            entry (str)
+        returns:
+            summand (int), or
+            msg (str)
+    """
+
+    entry = entry.upper()
+        
+    # a dictionary containing Roman numerals and their representative values
+    roman_dict = {
     'I': 1,
     'V': 5,
     'X': 10,
@@ -357,88 +394,114 @@ roman_dict = {
     'M': 1000
     }
 
-# get user input
-
-entry = input("gimme a Roman number: ").upper()
-
-print(entry)
-
-# enqueue the string, each node's value is a RomanNum object
-
-roman_number = Queue()
-
-for symbol in entry:
-    if symbol in roman_dict.keys():
-        roman_number.enqueue(RomanNum(symbol, roman_dict[symbol]))
-
-
-# raise error if input contains invalid symbol
-
-    else:
-        raise ValueError
-
-# separate function to check syntactics here
-# functionally functioning functional function
-def syntax_checker(entry):
-    """check if entry is syntactic"""
-
+    # some useful lists
     ones = ['I', 'X', 'C', 'M']
     fives = ['V', 'L', 'D']
 
-    # string methods
+    # and a Queue object
+    queue = Queue()
+        
+    # check if each symbol is a key in the dictionary
+    for symbol in entry:
 
-    # no more than three consecutive ones
-    for i in ones:
-        if i*4 in entry:
-            raise ValueError
+        # if so, use to construct and enqueue a RomanNum object
+        if symbol in roman_dict.keys():
+            numeral = RomanNum(symbol, roman_dict[symbol])
+            queue.enqueue(numeral)
 
-    # no more than one consecutive five
-    for v in fives:
-        if v*2 in entry:
-            raise ValueError
-
-# run syntax check
-syntax_checker(entry)
-
-# set toggle switch off
-
-minus_toggle = False
-trash_can = []
-
-# initialize return value
-arabic_number = 0
-
-# loop until string is read
-
-while not roman_number.is_empty():
-
-## read symbol
-
-    current_symbol = roman_number.dequeue()
-    if current_symbol in trash_can:
-        raise ValueError    
-
-    next_symbol = roman_number.peek()
-    if next_symbol is None:
-        next_symbol = RomanNum('O', 0)
-
-## check that next symbol is of equal or lesser value
-
-    if next_symbol > current_symbol:
-
-## if not, and switch not toggled, toggle switch and subtract
-        if minus_toggle == False:
-            minus_toggle = True
-            arabic_number -= current_symbol.value
-            trash_can.append(current_symbol)
-
-## if not, and switch is toggled, raise error
+        # otherwise, raise error
         else:
-            raise ValueError
+            error_idx = find_nth(entry, symbol, 1)
+            msg = 'Error in position {0}\n{1} is not a Roman numeral'
+            msg = msg.format(error_idx, symbol)
+            return msg
+        
+    # declare base case, cap, trash can, toggle switch, and summand
+    last_symbol = RomanNum('O', 10**20)
+    cap = last_symbol
+    trash = []
+    next_switch = False
+    summand = 0
 
-## if so, untoggle switch and add
-    else:
-        minus_toggle = False
-        arabic_number += current_symbol.value
+    while not queue.is_empty():
+        
 
-print(arabic_number)
+        # dequeue the first symbol and peek the next one
+        current_symbol = queue.dequeue()
+        # alias
+        cur = current_symbol
+
+        if not queue.is_empty():
+            next_symbol = queue.peek()
+        else:
+            next_symbol = RomanNum('E', 0)
+
+        # current symbol may not be in trash
+        if cur in trash:
+            error_idx = len(entry) - queue.size - 1
+            msg = 'Error in position {0}\n{1} cannot be reused'
+            msg = msg.format(error_idx, cur)
+            return msg
+
+        # current symbol may only exceed cap if switch is set
+        # in which case add to summand, trash symbol, and reset switch
+        if cur > cap:
+            if next_switch:
+                trash.append(cur)
+                next_switch = False
+            else:
+                error_idx = len(entry) - queue.size - 1
+                msg = 'Error in position {0}\n{1} may not be used here'
+                msg = msg.format(error_idx, cur)
+                return msg
+
+        # next symbol may only exceed current if current symbol is subtractive,
+        # less than last, not trashed, and not a five
+        # in which case set cap, trash symbol, subtract value, set switch
+        case = cur < last_symbol and cur not in trash and str(cur) not in fives
+        if cur < next_symbol:
+            if case:
+                cap = cur
+                trash.append(cur)
+                summand -= cur.value
+                next_switch = True
+            else:
+                error_idx = len(entry) - queue.size
+                msg = 'Error in position {0}\n{1} may not be used here'
+                msg = msg.format(error_idx, next_symbol)
+                return msg
+
+        # add symbol's value if it has not been subtracted
+        if not next_switch:
+            summand += cur.value
+
+        # a five may not appear more than once
+        if str(cur) in fives:
+            trash.append(cur)        
+
+        # set current symbol to last
+        last_symbol = current_symbol
+
+    # a one appearing more than thrice raises an error
+    for i in ones:
+        if entry.count(i) > 3:
+            error_idx = find_nth(entry, i, 4)
+            msg = 'Error in position {0}\nMaximum 1 instance of {1}'
+            msg = msg.format(error_idx, i)
+            return msg
+
+    # if no error was raised, the Arabic numeral is returned
+    return summand
+
+from random import choice, randint
+LIB = 'IVXLCDM'
+
+for i in range(10):
+    testnum = ""
+    for j in range(randint(1,10)):
+        testnum += choice(LIB)
+
+    print("""\n\n*************************
+Now testing: {0}\n
+Test result:
+{1}""".format(testnum, roman_numeral_computer(testnum)))

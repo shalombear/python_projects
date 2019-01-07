@@ -138,6 +138,7 @@ def D(num):
    #this is pretty much just the Decimal class from the decimal library
     #which is why it's capitalized. primary purpose is to reduce keystrokes
     #by automating the conversion of the integer or float into a string
+    #should be doing this by direct inheritance
                 parameters:
                     num (int OR float)
                 returns:
