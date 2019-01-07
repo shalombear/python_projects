@@ -72,14 +72,35 @@ classes:
                     other (RomanNum)
                 returns:
                     equal (bool)
+
+functions:
+    find_nth -- search a string and return the nth occurence of a substring
+        args:
+            string (str)
+            sub (str)
+            n (int > 0)
+        returns:
+            sub_idx (int >= 0)
+
+    roman_numeral_computer -- check if entry is syntactically valid as a
+                roman number and compute
+        args:
+            entry (str)
+        returns:
+            summand (int), or
+            msg (str)
+
+    autotest -- generate a number of Roman numeral type strings and test
+                main fuunction
+        args:
+            n (int > 0)
                     
 """
 
-# importing libraries
-from tkinter import *
-
-# importing functions
+# importing libraries and functions
+import tkinter as tk
 from functools import total_ordering
+from random import choice, randint
 
 # the Node class is used to implement linked list data structures
 class Node:
@@ -443,11 +464,21 @@ def roman_numeral_computer(entry):
             msg = msg.format(error_idx, cur)
             return msg
 
+        # current symbol may not be greater than anything in the trash
+        for sym in trash:
+            if cur > sym:
+                error_idx = len(entry) - queue.size - 1
+                msg = 'Error in position {0}\n{1} cannot be used'
+                msg = msg.format(error_idx, cur)
+                return msg
+                
+
         # current symbol may only exceed cap if switch is set
-        # in which case add to summand, trash symbol, and reset switch
+        # in which case add to summand, trash symbols, and reset switch
         if cur > cap:
             if next_switch:
                 trash.append(cur)
+                trash.append(last_symbol)
                 next_switch = False
             else:
                 error_idx = len(entry) - queue.size - 1
@@ -457,12 +488,11 @@ def roman_numeral_computer(entry):
 
         # next symbol may only exceed current if current symbol is subtractive,
         # less than last, not trashed, and not a five
-        # in which case set cap, trash symbol, subtract value, set switch
+        # in which case set cap, subtract value, set switch
         case = cur < last_symbol and cur not in trash and str(cur) not in fives
         if cur < next_symbol:
             if case:
                 cap = cur
-                trash.append(cur)
                 summand -= cur.value
                 next_switch = True
             else:
@@ -493,15 +523,21 @@ def roman_numeral_computer(entry):
     # if no error was raised, the Arabic numeral is returned
     return summand
 
-from random import choice, randint
-LIB = 'IVXLCDM'
+# a function to test the main function
+def autotest(n):
+    """generate a number of Roman numeral type strings and test main fuunction
+        args:
+            n (int > 0)
+    """
+    
+    LIB = 'IVXLCDM'
 
-for i in range(10):
-    testnum = ""
-    for j in range(randint(1,10)):
-        testnum += choice(LIB)
+    for i in range(n):
+        testnum = ""
+        for j in range(randint(1,10)):
+            testnum += choice(LIB)
 
-    print("""\n\n*************************
+        print("""\n\n*************************
 Now testing: {0}\n
 Test result:
 {1}""".format(testnum, roman_numeral_computer(testnum)))
