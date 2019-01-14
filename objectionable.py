@@ -106,6 +106,44 @@ classes:
                     other (Proposition)
                 returns
                     disjunction (Proposition)
+            __rshift__ -- implication
+                args:
+                    other (Proposition)
+                returns
+                    implication (Proposition)
+
+    FuzzyProposition -- statement in a fuzzy propositional calculus
+        inheritance:
+            Proposition
+        attributes:
+            statement (str)
+            truth (0 <= float <=1 or None) [default=None]
+        methods:
+            __init__ -- instantiation
+                args:
+                    statement (str)
+                    truth (0 <= float <= 1 or None) [default=None]
+            __repr__ -- representation
+                returns:
+                    rep (str)
+            __neg__ -- negation
+                returns
+                    negation (FuzzyProposition)
+            __and__ -- conjunction
+                args:
+                    other (FuzzyProposition)
+                returns
+                    conjunction (FuzzyProposition)
+            __or__ -- disjunction
+                args:
+                    other (FuzzyProposition)
+                returns
+                    disjunction (FuzzyProposition)
+            __rshift__ -- implication
+                args:
+                    other (FuzzyProposition)
+                returns
+                    implication (FuzzyProposition)
 
 """
 
@@ -756,6 +794,11 @@ class Proposition:
                     other (Proposition)
                 returns
                     disjunction (Proposition)
+            __rshift__ -- implication
+                args:
+                    other (Proposition)
+                returns
+                    implication (Proposition)
     """
 
     # instantiation
@@ -824,3 +867,149 @@ class Proposition:
         disjunction = Proposition(statement, truth)
 
         return disjunction
+
+    # implication
+    def __rshift__(self, other):
+        """return implication of one proposition to another
+            args:
+                other (Proposition)
+            returns:
+                implication (Proposition)
+        """
+
+        # building object
+        statement = "{0} IMPLIES {1}".format(self.statement, other.statement)
+        truth = not self.truth or other.truth
+        implication = Proposition(statement, truth)
+
+        return implication
+
+class FuzzyProposition(Proposition):
+    """statement in a fuzzy propositional calculus
+        inheritance:
+            Proposition
+        attributes:
+            statement (str)
+            truth (0 <= float <=1 or None) [default=None]
+        methods:
+            __init__ -- instantiation
+                args:
+                    statement (str)
+                    truth (0 <= float <= 1 or None) [default=None]
+            __repr__ -- representation
+                returns:
+                    rep (str)
+            __neg__ -- negation
+                returns
+                    negation (FuzzyProposition)
+            __and__ -- conjunction
+                args:
+                    other (FuzzyProposition)
+                returns
+                    conjunction (FuzzyProposition)
+            __or__ -- disjunction
+                args:
+                    other (FuzzyProposition)
+                returns
+                    disjunction (FuzzyProposition)
+            __rshift__ -- implication
+                args:
+                    other (FuzzyProposition)
+                returns
+                    implication (FuzzyProposition)
+    """
+
+    # instantiation
+    def __init__(self, statement, truth=None):
+        """instantiate a statement in the fuzzy propositional calculus
+            args:
+                statement (str)
+                truth (0 <= float <= 1 or None) [default=None]
+        """
+
+        # calling super
+        super().__init__(statement, truth)
+
+    # string representation
+    def __repr__(self):
+        """represent fuzzy proposition as a string
+            returns:
+                rep (str)
+        """
+
+        super().__repr__(self)
+
+    # negation
+    def __neg__(self):
+        """return negation of fuzzy proposition
+            returns:
+                negation (FuzzyProposition)
+        """
+
+        # building object
+        statement = "NOT {}".format(self.statement)
+        if self.truth is None:
+            truth = None
+        else:
+            truth = 1 - self.truth
+        negation = FuzzyProposition(statement, truth)
+
+        return negation
+
+    # conjunction
+    def __and__(self, other):
+        """return conjuction of two fuzzy propositions
+            args:
+                other (FuzzyProposition)
+            returns:
+                conjuction (FuzzyProposition)
+        """
+
+        # building object
+        statement = "{0} AND {1}".format(self.statement, other.statement)
+        if self.truth is None or other.truth is None:
+            truth = None
+        else:
+            truth = min(self.truth, other.truth)
+        conjunction = FuzzyProposition(statement, truth)
+
+        return conjunction
+
+    # disjunction
+    def __or__(self, other):
+        """return disjuction of two fuzzy propositions
+            args:
+                other (FuzzyProposition)
+            returns:
+                disjuction (FuzzyProposition)
+        """
+
+        # building object
+        statement = "{0} OR {1}".format(self.statement, other.statement)
+        if self.truth is None or other.truth is None:
+            truth = None
+        else:
+            truth = max(self.truth, other.truth)
+        disjunction = FuzzyProposition(statement, truth)
+
+        return disjunction
+
+    # implication
+    def __rshift__(self, other):
+        """return implication of one proposition to another
+            args:
+                other (Proposition)
+            returns:
+                implication (Proposition)
+        """
+
+        # building object
+        statement = "{0} IMPLIES {1}".format(self.statement, other.statement)
+        if self.truth is None or other.truth is None:
+            truth = None
+        else:
+            truth = max((-self).truth, other.truth)
+        implication = FuzzyProposition(statement, truth)
+
+        return implication
+
