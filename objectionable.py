@@ -1,43 +1,42 @@
-"""
-Classes and functions for mathematical objects of all types
-    classes:
-        Vertex -- vertices of a graph
-            attributes:
-                value (any)
-                edges (list)
-            methods:
-                __init__ -- instantiation
-                    parameters:
-                        value (any) [default=None]
-                __repr__ -- string representation
-                    returns:
-                        rep (str)
-                __eq__ -- two vertices are equal if their values and all their edges are equal
-                    parameters:
-                        other (Vertex)
-                    returns:
-                        equal (bool)
-                add_edge -- adding an edge to a vertex
-                    parameters:
-                        other (Vertex)
+"""classes and functions for mathematical objects of all types
+classes:
+    Vertex -- vertices of a graph
+        attributes:
+            value (any)
+            edges (list)
+        methods:
+            __init__ -- instantiation
+                args:
+                    value (any) [default=None]
+            __repr__ -- string representation
+                returns:
+                    rep (str)
+            __eq__ -- two vertices are equal if their values and all their edges are equal
+                args:
+                    other (Vertex)
+                returns:
+                    equal (bool)
+            add_edge -- adding an edge to a vertex
+                args:
+                    other (Vertex)
 
-        Graph -- a collection of Vertex objects
-            attributes:
-                vertices (list)
-                edges (list)
-            methods:
-                __init__ -- instantiation
-                    parameters:
-                        vertices (list)
-                add_vertex -- adding a vertex to the graph
-                    parameters:
-                        vertex (Vertex)
-                add_edge -- adding an edge to the graph
-                    parameters:
-                        v1 (Vertex)
-                        v2 (Vertex)
+    Graph -- a collection of Vertex objects
+        attributes:
+            vertices (list)
+            edges (list)
+        methods:
+            __init__ -- instantiation
+                args:
+                    vertices (list)
+            add_vertex -- adding a vertex to the graph
+                args:
+                    vertex (Vertex)
+            add_edge -- adding an edge to the graph
+                args:
+                    v1 (Vertex)
+                    v2 (Vertex)
 
-        Node -- a node in a linked list
+    Node -- a node in a linked list
         attributes:
             value (any type)
             link_node (Node or None) [default=None]
@@ -81,6 +80,32 @@ Classes and functions for mathematical objects of all types
             dequeue -- remove head and return
                 returns:
                     value (any type)
+
+    Proposition -- statement in a propositional calculus
+        attributes:
+            statement (str)
+            truth (bool or None) [default=None]
+        methods:
+            __init__ -- instantiation
+                args:
+                    statement (str)
+                    truth (bool or None) [default=None]
+            __repr__ -- representation
+                returns:
+                    rep (str)
+            __neg__ -- negation
+                returns
+                    negation (Proposition)
+            __and__ -- conjunction
+                args:
+                    other (Proposition)
+                returns
+                    conjunction (Proposition)
+            __or__ -- disjunction
+                args:
+                    other (Proposition)
+                returns
+                    disjunction (Proposition)
 
 """
 
@@ -704,3 +729,98 @@ class TreeNode:
             lister += child.traverse()
 
         return lister
+
+class Proposition:
+    """statement in a propositional calculus
+        attributes:
+            statement (str)
+            truth (bool or None) [default=None]
+        methods:
+            __init__ -- instantiation
+                args:
+                    statement (str)
+                    truth (bool or None) [default=None]
+            __repr__ -- representation
+                returns:
+                    rep (str)
+            __neg__ -- negation
+                returns
+                    negation (Proposition)
+            __and__ -- conjunction
+                args:
+                    other (Proposition)
+                returns
+                    conjunction (Proposition)
+            __or__ -- disjunction
+                args:
+                    other (Proposition)
+                returns
+                    disjunction (Proposition)
+    """
+
+    # instantiation
+    def __init__(self, statement, truth=None):
+        """instantiate a statement in the propositional calculus
+            args:
+                statement (str)
+                truth (bool or None) [default=None]
+        """
+
+        # assigning attributes
+        self.statement = statement
+        self.truth = truth
+
+    # string representation
+    def __repr__(self):
+        """represent proposition as a string
+            returns:
+                rep (str)
+        """
+
+        return self.statement
+
+    # negation
+    def __neg__(self):
+        """return negation of proposition
+            returns:
+                negation (Proposition)
+        """
+
+        # building object
+        statement = "NOT {}".format(self.statement)
+        truth = not self.truth
+        negation = Proposition(statement, truth)
+
+        return negation
+
+    # conjunction
+    def __and__(self, other):
+        """return conjuction of two propositions
+            args:
+                other (Proposition)
+            returns:
+                conjuction (Proposition)
+        """
+
+        # building object
+        statement = "{0} AND {1}".format(self.statement, other.statement)
+        truth = self.truth and other.truth
+        conjunction = Proposition(statement, truth)
+
+        return conjunction
+
+    # disjunction
+    def __or__(self, other):
+        """return disjuction of two propositions
+            args:
+                other (Proposition)
+            returns:
+                disjuction (Proposition)
+        """
+
+        # building object
+        statement = "{0} OR {1}".format(self.statement, other.statement)
+        truth = self.truth or other.truth
+        disjunction = Proposition(statement, truth)
+
+        return disjunction
