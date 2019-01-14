@@ -1,69 +1,100 @@
-"""
-sandbox for designing, building, and testing blocks of code
-"""
+"""A sandbox for making and testing Python code"""
 
-"""
-a module model for designing GUI-based apps
-"""
 
-# importing libraries
-from tkinter import *
+#gonna create some class objects based on discrete math text (K. Rosen)
 
-# a function for creating root window with a frame
-def create_frame(title, width, height):
-
-    root = Tk()
-    root.title(title)
-    root.geometry(str(width) + 'x' + str(height))
-
-    app = Frame(root)
-    app.pack()
-
-    return root, app
-
-def do_the_thing(thing="The thing"):
-    print(str(thing) + " has been done!")
-
-# a class for creating a root window with a frame
-class App:
+class Proposition:
+    """statement in a propositional calculus
+        attributes:
+            statement (str)
+            truth (bool or None) [default=None]
+        methods:
+            __init__ -- instantiation
+                args:
+                    statement (str)
+                    truth (bool or None) [default=None]
+            __repr__ -- representation
+                returns:
+                    rep (str)
+            __neg__ -- negation
+                returns
+                    negation (Proposition)
+            __and__ -- conjunction
+                args:
+                    other (Proposition)
+                returns
+                    conjunction (Proposition)
+            __or__ -- disjunction
+                args:
+                    other (Proposition)
+                returns
+                    disjunction (Proposition)
+    """
 
     # instantiation
-    def __init__(self, title="untitled", width=500, height=500):
+    def __init__(self, statement, truth=None):
+        """instantiate a statement in the propositional calculus
+            args:
+                statement (str)
+                truth (bool or None) [default=None]
+        """
 
-        # creating a root window for the program
-        # modifying attributes
+        # assigning attributes
+        self.statement = statement
+        self.truth = truth
 
-        root, app = create_frame(title, width, height)
+    # string representation
+    def __repr__(self):
+        """represent proposition as a string
+            returns:
+                rep (str)
+        """
+
+        return self.statement
+
+    # negation
+    def __neg__(self):
+        """return negation of proposition
+            returns:
+                negation (Proposition)
+        """
+
+        # building object
+        statement = "NOT {}".format(self.statement)
+        truth = not self.truth
+        negation = Proposition(statement, truth)
+
+        return negation
+
+    # conjunction
+    def __and__(self, other):
+        """return conjuction of two propositions
+            args:
+                other (Proposition)
+            returns:
+                conjuction (Proposition)
+        """
+
+        # building object
+        statement = "{0} AND {1}".format(self.statement, other.statement)
+        truth = self.truth and other.truth
+        conjunction = Proposition(statement, truth)
+
+        return conjunction
+
+    # disjunction
+    def __or__(self, other):
+        """return disjuction of two propositions
+            args:
+                other (Proposition)
+            returns:
+                disjuction (Proposition)
+        """
+
+        # building object
+        statement = "{0} OR {1}".format(self.statement, other.statement)
+        truth = self.truth or other.truth
+        disjunction = Proposition(statement, truth)
+
+        return disjunction
         
-        # declaring attributes
-        self.root = root
-        self.appframe = app
-
-    #running the app
-    def run(self):
-        self.root.mainloop()     
-
-#a class for packing a label with text to a frame
-class Lbl:
-
-    #instantiation
-    def __init__(self, frame, lbltext):
-
-        #instantiate label with frame and text
-        lbl = Label(frame, text=lbltext)
-
-        #pack to frame
-        lbl.pack()
-
-#a class for packing a button with text to a frame
-class Btn:
-
-    #instantiation
-    def __init__(self, frame, btntext):
-
-        #instantiate Button with frame and text
-        btn = Button(frame, text=btntext)
-
-        #pack to frame
-        btn.pack()
-
