@@ -1,4 +1,5 @@
 """classes and functions for mathematical objects of all types
+
 classes:
     Vertex -- vertices of a graph
         attributes:
@@ -11,7 +12,7 @@ classes:
             __repr__ -- string representation
                 returns:
                     rep (str)
-            __eq__ -- two vertices are equal if their values and all their edges are equal
+            __eq__ -- vertices are equal if their values and edges are equal
                 args:
                     other (Vertex)
                 returns:
@@ -58,19 +59,83 @@ classes:
                 returns:
                     value (any type)
 
-    Queue -- a FIFO queue
-       attributes:
-            head (Node or None)
-            tail (Node or None)
-            size (int >= 0)
+    LinkedList -- a linked list data structure
+        attributes:
+            head (Node)
         methods:
             __init__ -- instantiation
+                args:
+                    value (any type) [default=None]
             __repr__ -- string representation
                 returns:
                     rep (str)
-            is_empty -- helper method
+            insert_head -- add a new head node
+                args:
+                    new_value
+
+    Stack -- a LIFO stack
+        attributes:
+            top_item (any type)
+        methods:
+            __init__ -- instantiation
+                args:
+                    bottom_value (any type) [default=None]
+            is_empty -- helper method checks if stack is empty
                 returns:
                     empty (bool)
+            push -- add a value to the top of the stack
+                args:
+                    value (any type)
+            pop -- remove and return top item from stack
+                returns:
+                    value (any type)
+            peek
+                returns:
+                    value (any type)
+
+    MeasuredStack -- a LIFO stack with a counter and an optional maximum size
+        inheritance:
+            Stack
+        attributes:
+            size (int >= 0)
+            limit (int > 0 or None)
+        methods:
+            __init__ -- instantiation
+                args:
+                    bottom_value (any type) [default=None]
+                    limit (int > 0) [default=None]
+            has_space -- check if the stack is not full
+                returns:
+                    has (bool)
+            push -- add a value to the top of the stack
+                args:
+                    value (any type)
+            pop -- remove and return top item from stack
+                returns:
+                    value (any type)
+            peek
+                returns:
+                    value (any type)
+
+    Queue -- a FIFO queue
+        attributes:
+            head (Node or None)
+            tail (Node or None)
+            cap (int > 0 or None)
+            size (int >= 0)
+        methods:
+            __init__ -- instantiation
+                args:
+                    cap (int > 0 or None) [default=None]
+            __repr__ -- string representation
+                returns:
+                    rep (str)
+            is_empty -- check if the string is empty
+                returns:
+                    empty (bool)
+            is_full -- check if queue is full
+                returns:
+                    full (bool)
             peek -- return the leading value of the queue
                 returns:
                     val (any type)
@@ -80,6 +145,24 @@ classes:
             dequeue -- remove head and return
                 returns:
                     value (any type)
+
+    TreeNode -- a node in a tree
+        attributes:
+            value (any type)
+            children (list)
+        methods:
+            __init__ -- instantiation
+                args:
+                    value (any type)
+            add_child -- add a child to the node
+                args:
+                    child_value (any type)
+            remove_child -- remove a child from the node
+                args:
+                    child_value (any type)
+            traverse -- iterate through the node's subtree depth-first
+                returns:
+                    lister (list)
 
     Proposition -- statement in a propositional calculus
         attributes:
@@ -158,21 +241,33 @@ from otoodles import D
 # graphs
 # the graph vertex class
 class Vertex:
-    """
-    vertices of a graph
+    """vertices of a graph
         attributes:
+            value (any)
             edges (list)
         methods:
             __init__ -- instantiation
+                args:
+                    value (any) [default=None]
             __repr__ -- string representation
-            add_edge -- adding an edge to the graph
-                parameters:
+                returns:
+                    rep (str)
+            __eq__ -- vertices are equal if their values and edges are equal
+                args:
+                    other (Vertex)
+                returns:
+                    equal (bool)
+            add_edge -- adding an edge to a vertex
+                args:
                     other (Vertex)
     """
 
     # instantiation
     def __init__(self, value=None):
-        """instantiate a vertex of a graph"""
+        """instantiate a vertex of a graph
+            args:
+                value (any) [default=None]
+        """
         self.value = value
 
         # object instantiates with an empty container for the edges
@@ -180,7 +275,10 @@ class Vertex:
 
     # string representation
     def __repr__(self):
-        """string representation of a graph vertext"""
+        """string representation of a graph vertext
+            returns:
+                rep (str)
+        """
 
         # need to put more thought into how this is going down
         rep = str(self.value)
@@ -188,9 +286,8 @@ class Vertex:
 
     # method to add an edge to the graph
     def add_edge(self, other):
-        """
-        add an edge to the graph between self and other
-            parameters:
+        """add an edge to the graph between self and other
+            args:
                 other (Vertex)
         """
         if other not in self.edges:
@@ -200,25 +297,29 @@ class Vertex:
             other.edges.append(self)
 
 class Graph:
-    """
-    A collection of Vertex objects
+    """A collection of Vertex objects
         attributes:
             vertices (list)
             edges (list)
         methods:
             __init__ -- instantiation
-                parameters:
+                args:
                     vertices (list)
             add_vertex -- adding a vertex to the graph
-                parameters:
+                args:
                     vertex (Vertex)
             add_edge -- adding an edge to the graph
-                parameters:
+                args:
                     v1 (Vertex)
                     v2 (Vertex)
     """
 
     def __init__(self, vertices):
+        """instantiate a graph object
+            args:
+                vertices(list)
+        """
+        
         self.vertices = vertices
         edgelist = []
         for vertex in vertices:
@@ -226,23 +327,22 @@ class Graph:
                 if [vertex, edge] not in edgelist and [edge, vertex] not in edgelist:
                     edgelist.append(vertex, edge)
             
-# the Node class will be used to implement data structures
+# the Node class is used to implement data structures
 class Node:
-    """
-    a node in a linked list
+    """a node in a linked list
         attributes:
             value (any type)
             link_node (Node or None) [default=None]
         methods:
             __init__ -- instantiate a Node object
-                parameters:
+                args:
                     value (any)
                     link_node (None or None) [default=None]
             __repr__ -- represent the object as a string
                 returns:
                     rep (str)
             set_link -- set a link node
-                parameters:
+                args:
                     link_node (Node)
             get_link -- retrieve a link node
                 returns:
@@ -254,9 +354,8 @@ class Node:
 
     # instantiation
     def __init__(self, value, link_node=None):
-        """
-        instantiate a node object
-            parameters:
+        """instantiate a node object
+            args:
                 value (any type)
                 link_node (Node or None) [default=None]
         """
@@ -267,8 +366,7 @@ class Node:
 
     # representation
     def __repr__(self):
-        """
-        string representation of the Node object
+        """string representation of the Node object
             returns:
                 rep (str)
         """
@@ -282,9 +380,8 @@ class Node:
 
     # linking nodes
     def set_link(self, link_node):
-        """
-        assign a link to a node
-            parameters:
+        """assign a link to a node
+            args:
                 link_node (Node)
         """
         
@@ -292,8 +389,7 @@ class Node:
 
     # retrieving linked node
     def get_link(self):
-        """
-        retrieve a link node
+        """retrieve a link node
             returns:
                 link_node (Node)
         """
@@ -302,37 +398,34 @@ class Node:
 
     # retrieving node's stored value
     def get_value(self):
-        """
-        retrieve the value from a node
+        """retrieve the value from a node
             returns:
                 value (any type)
         """
 
         return self.value
 
-
+# linked list data structure
 class LinkedList:
-    """
-    implementation of the linked list data structure
+    """implementation of linked list data structure
         attributes:
             head (Node)
         methods:
             __init__ -- instantiation
-                parameters:
+                args:
                     value (any type) [default=None]
             __repr__ -- string representation
                 returns:
                     rep (str)
             insert_head -- add a new head node
-                parameters:
+                args:
                     new_value
         """
 
     # instantiation
     def __init__(self, value=None):
-        """
-        instantiate a linked list
-            parameters:
+        """instantiate a linked list
+            args:
                 value (any type) [default=None]
         """
 
@@ -341,8 +434,7 @@ class LinkedList:
 
     # representation
     def __repr__(self):
-        """
-        represent the object as a string
+        """represent the object as a string
             returns:
                 rep (str)
         """
@@ -363,9 +455,8 @@ class LinkedList:
 
     # adding a new head to the list
     def insert_head(self, new_value):
-        """
-        add a new head node to the list
-            parameters:
+        """add a new head node to the list
+            args:
                 new_value (any type)
         """
 
@@ -379,19 +470,18 @@ class LinkedList:
         self.head = new_node
 
 class Stack:
-    """
-    a LIFO stack
+    """a LIFO stack
         attributes:
             top_item (any type)
         methods:
             __init__ -- instantiation
-                parameters:
+                args:
                     bottom_value (any type) [default=None]
-            is_empty --
+            is_empty -- helper method checks if stack is empty
                 returns:
-                    is (bool)
+                    empty (bool)
             push -- add a value to the top of the stack
-                parameters:
+                args:
                     value (any type)
             pop -- remove and return top item from stack
                 returns:
@@ -404,9 +494,8 @@ class Stack:
 
     # instantiation
     def __init__(self, bottom_value=None):
-        """
-        instantiate a LIFO stack
-            parameters:
+        """instantiate a LIFO stack
+            args:
                 bottom_value (any type) [default=None]
         """
         
@@ -423,15 +512,18 @@ class Stack:
             self.top_item = None
 
     def is_empty(self):
+        """helper method checks if stack is empty
+                returns:
+                    empty (bool)
+        """
 
         empty = self.top_item is None
         return empty
 
     # push method
     def push(self, value):
-        """
-        add a value to the top of the stack
-            parameters:
+        """add a value to the top of the stack
+            args:
                 value (any type)
         """
 
@@ -446,8 +538,7 @@ class Stack:
 
     # pop method
     def pop(self):
-        """
-        remove and return top item on stack
+        """remove and return top item on stack
             returns:
                 value (any type)
         """
@@ -467,8 +558,7 @@ class Stack:
 
     # peek method
     def peek(self):
-        """
-        call top value without removing from stack
+        """call top value without removing from stack
             returns:
                 value (any type)
         """
@@ -484,8 +574,7 @@ class Stack:
             
             
 class MeasuredStack(Stack):
-    """
-    a LIFO stack with a counter and an optional maximum size
+    """a LIFO stack with a counter and an optional maximum size
         inheritance:
             Stack
         attributes:
@@ -496,13 +585,24 @@ class MeasuredStack(Stack):
                 parameters:
                     bottom_value (any type) [default=None]
                     limit (int > 0) [default=None]
+            has_space -- check if the stack is not full
+                returns:
+                    has (bool)
+            push -- add a value to the top of the stack
+                args:
+                    value (any type)
+            pop -- remove and return top item from stack
+                returns:
+                    value (any type)
+            peek
+                returns:
+                    value (any type)
     """
 
     # instantiation
     def __init__(self, bottom_value=None, limit=None):
-        """
-        instantiate a measured stack object
-            parameters:
+        """instantiate a measured stack object
+            args:
                 bottom_value (any type) [default=None]
                 limit (int > 0) [default=None]
         """
@@ -522,8 +622,7 @@ class MeasuredStack(Stack):
         self.limit = limit
 
     def has_space(self):
-        """
-        check if the stack is not full
+        """check if the stack is not full
             returns:
                 has (bool)
         """
@@ -533,8 +632,7 @@ class MeasuredStack(Stack):
         return has
         
     def push(self, value):
-        """
-        add a value to the top of the stack
+        """add a value to the top of the stack
             parameters:
                 value (any type)
         """
@@ -547,8 +645,7 @@ class MeasuredStack(Stack):
             print("Stack is full")
 
     def pop(self):
-        """
-        return top value and remove from stack
+        """return top value and remove from stack
             returns:
                 value (any type)
         """
@@ -562,8 +659,7 @@ class MeasuredStack(Stack):
 
 
 class Queue:
-    """
-    a FIFO queue
+    """a FIFO queue
         attributes:
             head (Node or None)
             tail (Node or None)
@@ -571,14 +667,17 @@ class Queue:
             size (int >= 0)
         methods:
             __init__ -- instantiation
-                parameters:
+                args:
                     cap (int > 0 or None) [default=None]
             __repr__ -- string representation
                 returns:
                     rep (str)
-            is_empty -- helper method
+            is_empty -- check if the string is empty
                 returns:
                     empty (bool)
+            is_full -- check if queue is full
+                returns:
+                    full (bool)
             peek -- return the leading value of the queue
                 returns:
                     val (any type)
@@ -630,7 +729,10 @@ class Queue:
 
     # helper method checks if queue is full
     def is_full(self):
-        """check if string is full"""
+        """check if queue is full
+            returns:
+                full (bool)
+        """
         
         full = self.size == self.cap and self.cap is not None
 
@@ -691,74 +793,53 @@ class Queue:
 
 # node objects for use in tree structures
 class TreeNode:
-    """
-    a node in a tree
+    """a node in a tree
         attributes:
             value (any type)
             children (list)
         methods:
             __init__ -- instantiation
-                parameters:
+                args:
                     value (any type)
             add_child -- add a child to the node
-                parameters:
+                args:
                     value (any type)
             remove_child -- remove a child from the node
-                parameters:
+                args:
                     child (TreeNode)
     """
 
     def __init__(self, value):
-        """
-        instantiate a TreeNode object
-            parameters:
+        """instantiate a TreeNode object
+            args:
                 value (any type)
         """
 
         self.value = value
         self.children = []
 
-    def __repr__(self, level=0):
-        """
-        represent the node's subtree as a string
-            returns:
-                rep (str)
-                level (int >= 0) [default=0]
+    def add_child(self, child_value):
+        """add a child node
+            args:
+                child_value (any type)
         """
 
-        worker = ""
-        worker += "-->" * level
-        worker += str(self.value)
-        worker += "\n"
+        self.children.append(TreeNode(child_value))
 
-        #recursion
-        for child in self.children:
-            worker += child.__repr__(level+1)
-
-        rep = worker
-        return rep
-
-    def add_child(self, child):
-        """
-        add a child node
-            parameters:
-                child (TreeNode)
+    def remove_child(self, child_value):
+        """remove a child node
+            args:
+                child_value (TreeNode)
         """
 
-        self.children.append(child)
-
-    def remove_child(self, child):
-        """
-        remove a child node
-            parameters:
-                child (TreeNode)
-        """
-
-        new_children = [obj for obj in self.children if obj != child]
+        new_children = [obj for obj in self.children if obj.value != child_value]
         self.children = new_children
 
     def traverse(self):
-        """iterate through the node's subtree in a depth-first manner"""
+        """iterate through the node's subtree depth-first
+            returns:
+                lister (list)
+        """
 
         lister = []
         lister.append(self.value)
@@ -996,11 +1077,11 @@ class FuzzyProposition(Proposition):
 
     # implication
     def __rshift__(self, other):
-        """return implication of one proposition to another
+        """return implication of one fuzzy proposition to another
             args:
-                other (Proposition)
+                other (FuzzyProposition)
             returns:
-                implication (Proposition)
+                implication (FuzzyProposition)
         """
 
         # building object
@@ -1012,4 +1093,3 @@ class FuzzyProposition(Proposition):
         implication = FuzzyProposition(statement, truth)
 
         return implication
-
