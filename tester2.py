@@ -1,393 +1,181 @@
-class Heap:
-    """an ordered binary tree
+# graphs
+# the graph vertex class
+class Vertex:
+    """vertex of a graph
         attributes:
-            heap_list (list)
-            count (int >= 0)
+            value (any)
+            edges (dict)
         methods:
-            __init__ -- instantiate a Heap object
-            is_empty -- check if heap is empty
-                returns:
-                    empty (bool)
-            parent_idx -- find the parent index of an element
+            __init__ -- instantiation
                 args:
-                    idx (int > 0)
+                    value (any)
+            get_edges -- retrieve a list of connected vertices
                 returns:
-                    idx (int > 0)
-            left_child_idx -- find the left child index of an element
+                    edges (list)
+            __repr__ -- string representation
+                returns:
+                    rep (str)
+            add_edge -- adding an edge to a vertex
                 args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            right_child_idx -- find the right child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            add -- add an item to the heap
-                args:
-                    element (any type)
-            peek --return a copy of the top element
-                returns:
-                    val (any type)
-            pop -- remove and return top element from heap
-                returns:
-                    val (any type)
+                    other (Vertex)
     """
 
     # instantiation
-    def __init__(self):
-        """instantiate a heap object
-        """
-
-        # declaring attributes
-        # heap is stored as a list with a sentinel value
-        self.heap_list = [None,]
-        self.count = 0
-
-    # Helper methods
-    def is_empty(self):
-        """check if heap is empty
-            returns:
-                empty (bool)
-        """
-
-        empty = self.count == 0
-        return empty
-    
-    def parent_idx(self, idx):
-        """find the parent index of an element
+    def __init__(self, value):
+        """instantiate a vertex of a graph
             args:
-                idx (int > 0)
-            returns:
-                idx (int > 0)
+                value (any)
         """
 
-        idx //= 2
-        return idx
+        # assigning attributes
+        self.value = value
 
-    def left_child_idx(self, idx):
-        """find the left child index of an element
+        # object instantiates with an empty container for the edges
+        self.edges = {}
+
+    # helper method to retrieve a vertex's edges
+    def get_edges(self):
+        """return a list of connected vertices
+            returns:
+                edges (list)
+        """
+
+        edges = list(self.edges.keys())
+        return edges
+
+    # string representation
+    def __repr__(self):
+        """string representation of a graph vertext
+            returns:
+                rep (str)
+        """
+
+        # a vertex is represented by its value and a list of its neighbors
+        rep = str(self.value)
+        rep += ":"
+        for neighbor in self.get_edges():
+            rep += " "+ str(neighbor.value) + ","
+        rep = rep[:-1]
+            
+        return rep
+
+    # adding an edge to connect to another vertex
+    def add_edge(self, other):
+        """add an edge connecting the vertex to another
             args:
-                idx (int > 0)
-            returns:
-                idx (int > 0)
+                other (Vertex)
         """
 
-        idx *= 2
-        return idx
+        # adding other vertex to edges
+        self.edges[other] = True
 
-    def right_child_idx(self, idx):
-        """find the right child index of an element
-            args:
-                idx (int > 0)
-            returns:
-                idx (int > 0)
-        """
-
-        idx *= 2 + 1
-        return idx
-
-    # adding an element to the heap
-    def add(self, element):
-        """add an element to the heap
-            args:
-                element (any type)
-        """
-
-        self.count += 1
-        self.heap_list.append(element)
-
-    # peeking at the top of the heap
-    def peek(self):
-        """return a copy of the top element
-            returns:
-                val (any type)
-        """
-
-        # checking if heap is empty
-        if self.is_empty():
-            print("Heap is empty")
-            return None
-
-        # otherwise return top value without removing
-        else:
-            val = self.heap_list[1]
-            return val
-
-    # popping off the top value from the heap
-    # heap properties may not be maintained if used without heapify down
-    def pop(self):
-        """remove and return top element from heap
-            returns:
-                val (any type)
-        """
-
-        # checking if heap is empty
-        if self.is_empty():
-            print("Heap is empty")
-            return None
-
-        # otherwise swap top item with last item and return
-        else:
-            val = self.heap_list[1]
-            self.heap_list[1] = self.heap_list[-1]
-            self.heap_list.pop(-1)
-            self.count -= 1
-
-        return val
-
-class MinHeap(Heap):
-    """an ordered minimum heap
+# graph class
+class Graph:
+    """a collection of Vertex objects
         attributes:
-            heap_list (list)
-            count (int >= 0)
+            vertices (dict)
+            directed (bool)
         methods:
-            __init__ -- instantiate a MinHeap object
-            parent_idx -- find the parent index of an element
+            __init__ -- instantiation
                 args:
-                    idx (int > 0)
+                    directed (bool) [default=False]
+            __repr__ -- string representation
                 returns:
-                    idx (int > 0)
-            left_child_idx -- find the left child index of an element
+                    rep (str)
+            add_vertex -- add a vertex to the graph
                 args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            right_child_idx -- find the right child index of an element
+                    vertex (Vertex)
+            add_edge -- add an edge to the graph
                 args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            get_smaller_child_idx -- find the smaller child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            add -- add an item to the heap
-                args:
-                    element (any type)
-            heapify_up -- bubble up from bottom to order heap
-            peek -- return a copy of the top element
-                returns:
-                    val (any type)
-            pop -- remove and return minimum element from heap and resort
-                returns:
-                    mini (any type)
-            heapify_down -- bubble down from top to restore order
+                    v1 (Vertex)
+                    v2 (Vertex)
     """
 
-    # helper method to find the index of the smaller of an element's children
-    def get_smaller_child_idx(self, idx):
-        """get_smaller_child_idx -- find the smaller child index of an element
+    # instantiation
+    def __init__(self, directed=False):
+        """instantiate a graph object
             args:
-                idx (int > 0)
-            returns:
-                idx (int > 0)
+                directed (bool) [default=False]
         """
 
-        left_child = self.heap_list[self.left_child_idx(idx)]
+        # assigning attributes
+        self.directed = directed
 
-        try:
-            right_child = self.heap_list[self.right_child_idx(idx)]
-        except IndexError:
-            return self.left_child_idx(idx)
+        # the graph's vertices are stored in a dictionary
+        # key is vertex and value is a list of neighboring vertices
+        self.vertices = {}
 
-        else:
-            if left_child < right_child:
-                return self.left_child_idx(idx)
-            else:
-                return self.right_child_idx(idx)
+    # string representation
+    def __repr__(self):
+        """return string representation of graph object
+            returns:
+                rep (str)
+        """
 
-    # adding an element to the heap
-    def add(self, element):
-        """add an element to the heap
+        rep = ""
+        for vertex in self.vertices:
+            rep += str(vertex) + "\n"
+
+        rep = rep[:-1]
+
+        return rep
+
+    # adding a vertex to the graph
+    def add_vertex(self, vertex):
+        """add a vertex to the graph and use it to populate
             args:
-                element (any type)
+                vertex (Vertex)
         """
 
-        # call superclass method and reorder
-        super().add(element)
-        self.heapify_up()
+        # if the vertex is already in the graph it is not overwritten
+        if vertex not in self.vertices.keys():
+            self.vertices[vertex] = []
 
-    # heapify up method
-    def heapify_up(self):
-        """bubble up from bottom to restore order
-        """
+        # using the added vertex to populate the graph
+        # iterating through the connected vertices
+        for neighbor in vertex.get_edges():
 
-        # setting the index
-        idx = self.count
+            # recursive call to populate dictionary with neighbor
+            if neighbor not in self.vertices.keys():
+                self.add_vertex(neighbor)
 
-        # perform repeated checkswaps until list is ordered
-        while self.parent_idx(idx) > 0:
-            child = self.heap_list[idx]
-            parent = self.heap_list[self.parent_idx(idx)]
+            # adding the edge to the graph
+            self.add_edge(vertex, neighbor)
 
-            # check and swap
-            if parent > child:
-                self.heap_list[idx] = parent
-                self.heap_list[self.parent_idx(idx)] = child
-
-            # reindex
-            idx = self.parent_idx(idx)
-
-    # pop with reorder
-    def pop(self):
-        """remove and return minimum element from heap and resort
-            returns:
-                mini (any type)
-        """
-
-        mini = super().pop()
-        self.heapify_down()
-
-        return mini
-
-    # heapify down method
-    def heapify_down(self):
-        """bubble down from top to restore order
-        """
-
-        # setting the index
-        idx = 1
-
-        # perform repeated checkswaps until list is ordered
-        while self.left_child_idx(idx) <= self.count:
-            smaller_child_idx = self.get_smaller_child_idx(idx)
-            child = self.heap_list[smaller_child_idx]
-            parent = self.heap_list[idx]
-
-            # check and swap
-            if parent > child:
-                self.heap_list[idx] = child
-                self.heap_list[smaller_child_idx] = parent
-
-            # reindex
-            idx = smaller_child_idx
-
-class MaxHeap(Heap):
-    """an ordered maximum heap
-        attributes:
-            heap_list (list)
-            count (int >= 0)
-        methods:
-            __init__ -- instantiate a MinHeap object
-            parent_idx -- find the parent index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            left_child_idx -- find the left child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            right_child_idx -- find the right child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            get_larger_child_idx -- find the larger child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            add -- add an item to the heap
-                args:
-                    element (any type)
-            heapify_up -- bubble up from bottom to order heap
-            peek -- return a copy of the top element
-                returns:
-                    val (any type)
-            pop -- remove and return maximum element from heap and resort
-                returns:
-                    maxi (any type)
-            heapify_down -- bubble down from top to restore order
-    """
-
-    # helper method to find the index of the larger of an element's children
-    def get_smaller_child_idx(self, idx):
-        """get_larger_child_idx -- find the larger child index of an element
+    # adding an edge to the graph and populating
+    def add_edge(self, v1, v2):
+        """add an edge to the graph
             args:
-                idx (int > 0)
-            returns:
-                idx (int > 0)
+                v1 (Vertex)
+                v2 (Vertex)
         """
 
-        left_child = self.heap_list[self.left_child_idx(idx)]
+        # populating graph dictionary with vertices
+        for v in [v1, v2]:
+            if v not in self.vertices.keys():
+                self.vertices[v] = []
 
-        try:
-            right_child = self.heap_list[self.right_child_idx(idx)]
-        except IndexError:
-            return self.left_child_idx(idx)
+        # updating the graph dictionary
+        if v2 not in self.vertices[v1]:
+            self.vertices[v1].append(v2)
+        
+        # updating the vertex object
+        v1.add_edge(v2)
 
-        else:
-            if left_child > right_child:
-                return self.left_child_idx(idx)
-            else:
-                return self.right_child_idx(idx)
+        # reciprocating if graph is undirected
+        if not self.directed and v1 not in self.vertices[v2]:
+            self.add_edge(v2, v1)
+        
 
-    # adding an element to the heap
-    def add(self, element):
-        """add an element to the heap
-            args:
-                element (any type)
-        """
 
-        # call superclass method and reorder
-        super().add(element)
-        self.heapify_up()
 
-    # heapify up method
-    def heapify_up(self):
-        """bubble up from bottom to restore order
-        """
+v1 = Vertex('spam')
+v2 = Vertex('baked beans')
+v3 = Vertex('eggs')
+v4 = Vertex('lobster thermidor')
 
-        # setting the index
-        idx = self.count
-
-        # perform repeated checkswaps until list is ordered
-        while self.parent_idx(idx) > 0:
-            child = self.heap_list[idx]
-            parent = self.heap_list[self.parent_idx(idx)]
-
-            # check and swap
-            if parent < child:
-                self.heap_list[idx] = parent
-                self.heap_list[self.parent_idx(idx)] = child
-
-            # reindex
-            idx = self.parent_idx(idx)
-
-    # pop with reorder
-    def pop(self):
-        """remove and return maximum element from heap and resort
-            returns:
-                maxi (any type)
-        """
-
-        maxi = super().pop()
-        self.heapify_down()
-
-        return maxi
-
-    # heapify down method
-    def heapify_down(self):
-        """bubble down from top to restore order
-        """
-
-        # setting the index
-        idx = 1
-
-        # perform repeated checkswaps until list is ordered
-        while self.left_child_idx(idx) <= self.count:
-            smaller_child_idx = self.get_smaller_child_idx(idx)
-            child = self.heap_list[smaller_child_idx]
-            parent = self.heap_list[idx]
-
-            # check and swap
-            if parent < child:
-                self.heap_list[idx] = child
-                self.heap_list[smaller_child_idx] = parent
-
-            # reindex
-            idx = smaller_child_idx
+v2.add_edge(v1)
+v3.add_edge(v4)
+v4.add_edge(v1)
+v1.add_edge(v3)
+g = Graph()
