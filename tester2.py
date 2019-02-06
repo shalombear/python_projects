@@ -50,13 +50,8 @@ class Vertex:
                 rep (str)
         """
 
-        # a vertex is represented by its value and a list of its neighbors
+        # a vertex is represented by its value
         rep = str(self.value)
-        rep += ":"
-        for neighbor in self.get_edges():
-            rep += " "+ str(neighbor.value) + ","
-        rep = rep[:-1]
-            
         return rep
 
     # adding an edge to connect to another vertex
@@ -114,7 +109,13 @@ class Graph:
 
         rep = ""
         for vertex in self.vertices:
-            rep += str(vertex) + "\n"
+            rep += str(vertex)
+            rep += ": "
+            for v in vertex.get_edges():
+                rep += str(v) +", "
+
+            rep = rep[:-2]
+            rep += "\n"
 
         rep = rep[:-1]
 
@@ -165,14 +166,51 @@ class Graph:
         # reciprocating if graph is undirected
         if not self.directed and v1 not in self.vertices[v2]:
             self.add_edge(v2, v1)
+
+    # a method to find if there is a path in the graph between two vertices
+    def has_path(self, v1, v2):
+        """check if there is a path between two vertices
+            args:
+                v1 (Vertex)
+                v2 (Vertex)
+            returns:
+                path (bool)
+        """
+
+        # list of nodes to visit, discard pile, and return variable
+        start = [v1]
+        visited = []
+        path = False
+
+        # looping as long as list is non-empty
+        while start:
+
+            # grabbing the working node out of the list
+            # mark as visited and check if destination
+            current = start.pop(0)
+            visited.append(current)
+            if current == v2:
+                path = True
+                start = []
+
+            # otherwise extend the list of nodes to visit
+            else:
+                edges = [x for x in current.get_edges() if x not in visited]
+                start.extend(edges)
+
+        return path
+
         
 
-
-
+# test variables
 v1 = Vertex('spam')
 v2 = Vertex('baked beans')
-v3 = Vertex('eggs')
+v3 = Vertex('egg')
 v4 = Vertex('lobster thermidor')
+v5 = Vertex('pining for the fjords')
+v6 = Vertex('dead parrot')
+
+v5.add_edge(v6)
 
 v2.add_edge(v1)
 v3.add_edge(v4)

@@ -168,6 +168,8 @@ classes:
                     val (any type)
 
     MinHeap -- an ordered minimum heap
+        inheritance:
+            Heap
         attributes:
             heap_list (list)
             count (int >= 0)
@@ -209,6 +211,8 @@ classes:
             heapify_down -- bubble down from top to restore order
 
     MaxHeap -- an ordered maximum heap
+        inheritance:
+            Heap
         attributes:
             heap_list (list)
             count (int >= 0)
@@ -285,6 +289,13 @@ classes:
                 args:
                     v1 (Vertex)
                     v2 (Vertex)
+            has_path -- check if there is a path between two vertices
+                args:
+                    v1 (Vertex)
+                    v2 (Vertex)
+                returns:
+                    path (bool)
+
                     
     Proposition -- statement in a propositional calculus
         attributes:
@@ -1047,6 +1058,8 @@ class Heap:
 
 class MinHeap(Heap):
     """an ordered minimum heap
+        inheritance:
+            Heap
         attributes:
             heap_list (list)
             count (int >= 0)
@@ -1178,6 +1191,8 @@ class MinHeap(Heap):
 
 class MaxHeap(Heap):
     """an ordered maximum heap
+        inheritance:
+            Heap
         attributes:
             heap_list (list)
             count (int >= 0)
@@ -1398,6 +1413,13 @@ class Graph:
                 args:
                     v1 (Vertex)
                     v2 (Vertex)
+            has_path -- check if there is a path between two vertices
+                args:
+                    v1 (Vertex)
+                    v2 (Vertex)
+                returns:
+                    path (bool)
+
     """
 
     # instantiation
@@ -1474,6 +1496,39 @@ class Graph:
         # reciprocating if graph is undirected
         if not self.directed and v1 not in self.vertices[v2]:
             self.add_edge(v2, v1)
+
+    # a method to find if there is a path in the graph between two vertices
+    def has_path(self, v1, v2):
+        """check if there is a path between two vertices
+            args:
+                v1 (Vertex)
+                v2 (Vertex)
+            returns:
+                path (bool)
+        """
+
+        # list of nodes to visit, discard pile, and return variable
+        start = [v1]
+        visited = []
+        path = False
+
+        # looping as long as list is non-empty
+        while start:
+
+            # grabbing the working node out of the list
+            # mark as visited and check if destination
+            current = start.pop(0)
+            visited.append(current)
+            if current == v2:
+                path = True
+                start = []
+
+            # otherwise extend the list of nodes to visit
+            else:
+                edges = [x for x in current.get_edges() if x not in visited]
+                start.extend(edges)
+
+        return path
 
 class Proposition:
     """statement in a propositional calculus
