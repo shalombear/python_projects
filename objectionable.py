@@ -270,6 +270,7 @@ classes:
             add_edge -- adding an edge to a vertex
                 args:
                     other (Vertex)
+                    weight (bool or int or float) [default=True]
 
     Graph -- a collection of Vertex objects
         attributes:
@@ -289,6 +290,7 @@ classes:
                 args:
                     v1 (Vertex)
                     v2 (Vertex)
+                    weight (bool or int or float) [default=True]
             has_path -- check if there is a path between two vertices
                 args:
                     v1 (Vertex)
@@ -1342,6 +1344,7 @@ class Vertex:
             add_edge -- adding an edge to a vertex
                 args:
                     other (Vertex)
+                    weight (bool or int or float) [default=True]
     """
 
     # instantiation
@@ -1374,24 +1377,20 @@ class Vertex:
                 rep (str)
         """
 
-        # a vertex is represented by its value and a list of its neighbors
+        # a vertex is represented by its value
         rep = str(self.value)
-        rep += ":"
-        for neighbor in self.get_edges():
-            rep += " "+ str(neighbor.value) + ","
-        rep = rep[:-1]
-            
         return rep
 
     # adding an edge to connect to another vertex
-    def add_edge(self, other):
+    def add_edge(self, other, weight=True):
         """add an edge connecting the vertex to another
             args:
                 other (Vertex)
+                weight (bool or int or float) [default=True]
         """
 
         # adding other vertex to edges
-        self.edges[other] = True
+        self.edges[other] = weight
 
 # graph class
 class Graph:
@@ -1413,13 +1412,13 @@ class Graph:
                 args:
                     v1 (Vertex)
                     v2 (Vertex)
+                    weight (bool or int or float) [default=True]
             has_path -- check if there is a path between two vertices
                 args:
                     v1 (Vertex)
                     v2 (Vertex)
                 returns:
-                    path (bool)
-
+                    path (bool)        
     """
 
     # instantiation
@@ -1445,7 +1444,13 @@ class Graph:
 
         rep = ""
         for vertex in self.vertices:
-            rep += str(vertex) + "\n"
+            rep += str(vertex)
+            rep += ": "
+            for v in vertex.get_edges():
+                rep += str(v) +", "
+
+            rep = rep[:-2]
+            rep += "\n"
 
         rep = rep[:-1]
 
@@ -1471,14 +1476,16 @@ class Graph:
                 self.add_vertex(neighbor)
 
             # adding the edge to the graph
-            self.add_edge(vertex, neighbor)
+            weight = vertex.edges[neighbor]
+            self.add_edge(vertex, neighbor, weight)
 
     # adding an edge to the graph and populating
-    def add_edge(self, v1, v2):
+    def add_edge(self, v1, v2, weight=True):
         """add an edge to the graph
             args:
                 v1 (Vertex)
                 v2 (Vertex)
+                weight (bool or int or float) [default=True]
         """
 
         # populating graph dictionary with vertices
@@ -1491,11 +1498,11 @@ class Graph:
             self.vertices[v1].append(v2)
         
         # updating the vertex object
-        v1.add_edge(v2)
+        v1.add_edge(v2, weight)
 
         # reciprocating if graph is undirected
         if not self.directed and v1 not in self.vertices[v2]:
-            self.add_edge(v2, v1)
+            self.add_edge(v2, v1, weight)
 
     # a method to find if there is a path in the graph between two vertices
     def has_path(self, v1, v2):
