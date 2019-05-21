@@ -5,57 +5,14 @@ classes:
         attributes:
             value (any type)
             link_node (Node or None) [default=None]
-        methods:
-            __init__ -- instantiate a Node object
-                args:
-                    value (any)
-                    link_node (None or None) [default=None]
-            __repr__ -- represent the object as a string
-                returns:
-                    rep (str)
-            set_link -- set a link node
-                args:
-                    link_node (Node)
-            get_link -- retrieve a link node
-                returns:
-                    link_node (Node)
-            get_value -- retrieve the value from a node
-                returns:
-                    value (any type)
 
     LinkedList -- a linked list data structure
         attributes:
             head (Node)
-        methods:
-            __init__ -- instantiation
-                args:
-                    value (any type) [default=None]
-            __repr__ -- string representation
-                returns:
-                    rep (str)
-            insert_head -- add a new head node
-                args:
-                    new_value
 
     Stack -- a LIFO stack
         attributes:
             top_item (any type)
-        methods:
-            __init__ -- instantiation
-                args:
-                    bottom_value (any type) [default=None]
-            is_empty -- helper method checks if stack is empty
-                returns:
-                    empty (bool)
-            push -- add a value to the top of the stack
-                args:
-                    value (any type)
-            pop -- remove and return top item from stack
-                returns:
-                    value (any type)
-            peek
-                returns:
-                    value (any type)
 
     MeasuredStack -- a LIFO stack with a counter and an optional maximum size
         inheritance:
@@ -63,23 +20,6 @@ classes:
         attributes:
             size (int >= 0)
             limit (int > 0 or None)
-        methods:
-            __init__ -- instantiation
-                args:
-                    bottom_value (any type) [default=None]
-                    limit (int > 0) [default=None]
-            has_space -- check if the stack is not full
-                returns:
-                    has (bool)
-            push -- add a value to the top of the stack
-                args:
-                    value (any type)
-            pop -- remove and return top item from stack
-                returns:
-                    value (any type)
-            peek
-                returns:
-                    value (any type)
 
     Queue -- a FIFO queue
         attributes:
@@ -87,85 +27,16 @@ classes:
             tail (Node or None)
             cap (int > 0 or None)
             size (int >= 0)
-        methods:
-            __init__ -- instantiation
-                args:
-                    cap (int > 0 or None) [default=None]
-            __repr__ -- string representation
-                returns:
-                    rep (str)
-            is_empty -- check if the string is empty
-                returns:
-                    empty (bool)
-            is_full -- check if queue is full
-                returns:
-                    full (bool)
-            peek -- return the leading value of the queue
-                returns:
-                    val (any type)
-            enqueue -- add a node to the queue
-                args:
-                    value(any type)
-            dequeue -- remove head and return
-                returns:
-                    value (any type)
 
     TreeNode -- a node in a tree
         attributes:
             value (any type)
             children (list)
-        methods:
-            __init__ -- instantiation
-                args:
-                    value (any type)
-            __repr__ -- represent the tree as a string
-                args:
-                    level (int >= 0) [default=0]
-                returns:
-                    rep (str)
-            add_child -- add a child to the node
-                args:
-                    child (TreeNode)
-            remove_child -- remove a child from the node
-                args:
-                    child (TreeNode)
-            traverse -- iterate through the node's subtree depth-first
-                returns:
-                    lister (list)
 
     Heap -- an ordered binary tree
         attributes:
             heap_list (list)
             count (int >= 0)
-        methods:
-            __init__ -- instantiate a Heap object
-            is_empty -- check if heap is empty
-                returns:
-                    empty (bool)
-            parent_idx -- find the parent index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            left_child_idx -- find the left child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            right_child_idx -- find the right child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            add -- add an item to the heap
-                args:
-                    element (any type)
-            peek --return a copy of the top element
-                returns:
-                    val (any type)
-            pop -- remove and return top element from heap
-                returns:
-                    val (any type)
 
     MinHeap -- an ordered minimum heap
         inheritance:
@@ -173,42 +44,6 @@ classes:
         attributes:
             heap_list (list)
             count (int >= 0)
-        methods:
-            __init__ -- instantiate a MinHeap object
-            is_empty -- check if heap is empty
-                returns:
-                    empty (bool)
-            parent_idx -- find the parent index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            left_child_idx -- find the left child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            right_child_idx -- find the right child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            get_smaller_child_idx -- find the smaller child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            add -- add an item to the heap
-                args:
-                    element (any type)
-            heapify_up -- bubble up from bottom to order heap
-            peek -- return a copy of the top element
-                returns:
-                    val (any type)
-            pop -- remove and return minimum element from heap and resort
-                returns:
-                    mini (any type)
-            heapify_down -- bubble down from top to restore order
 
     MaxHeap -- an ordered maximum heap
         inheritance:
@@ -216,119 +51,21 @@ classes:
         attributes:
             heap_list (list)
             count (int >= 0)
-        methods:
-            __init__ -- instantiate a MinHeap object
-            is_empty -- check if heap is empty
-                returns:
-                    empty (bool)
-            parent_idx -- find the parent index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            left_child_idx -- find the left child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            right_child_idx -- find the right child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            get_larger_child_idx -- find the larger child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            add -- add an item to the heap
-                args:
-                    element (any type)
-            heapify_up -- bubble up from bottom to order heap
-            peek -- return a copy of the top element
-                returns:
-                    val (any type)
-            pop -- remove and return maximum element from heap and resort
-                returns:
-                    maxi (any type)
-            heapify_down -- bubble down from top to restore order
 
     Vertex -- vertex of a graph
         attributes:
             value (any)
             edges (dict)
-        methods:
-            __init__ -- instantiation
-                args:
-                    value (any)
-            get_edges -- retrieve a list of connected vertices
-                returns:
-                    edges (list)
-            __repr__ -- string representation
-                returns:
-                    rep (str)
-            add_edge -- adding an edge to a vertex
-                args:
-                    other (Vertex)
-                    weight (bool or int or float) [default=True]
 
     Graph -- a collection of Vertex objects
         attributes:
             vertices (dict)
             directed (bool)
-        methods:
-            __init__ -- instantiation
-                args:
-                    directed (bool) [default=False]
-            __repr__ -- string representation
-                returns:
-                    rep (str)
-            add_vertex -- add a vertex to the graph
-                args:
-                    vertex (Vertex)
-            add_edge -- add an edge to the graph
-                args:
-                    v1 (Vertex)
-                    v2 (Vertex)
-                    weight (bool or int or float) [default=True]
-            has_path -- check if there is a path between two vertices
-                args:
-                    v1 (Vertex)
-                    v2 (Vertex)
-                returns:
-                    path (bool)
-
                     
     Proposition -- statement in a propositional calculus
         attributes:
             statement (str)
             truth (bool or None) [default=None]
-        methods:
-            __init__ -- instantiation
-                args:
-                    statement (str)
-                    truth (bool or None) [default=None]
-            __repr__ -- representation
-                returns:
-                    rep (str)
-            __neg__ -- negation
-                returns
-                    negation (Proposition)
-            __and__ -- conjunction
-                args:
-                    other (Proposition)
-                returns
-                    conjunction (Proposition)
-            __or__ -- disjunction
-                args:
-                    other (Proposition)
-                returns
-                    disjunction (Proposition)
-            __rshift__ -- implication
-                args:
-                    other (Proposition)
-                returns
-                    implication (Proposition)
 
     FuzzyProposition -- statement in a fuzzy propositional calculus
         inheritance:
@@ -336,33 +73,6 @@ classes:
         attributes:
             statement (str)
             truth (0 <= float <=1 or None) [default=None]
-        methods:
-            __init__ -- instantiation
-                args:
-                    statement (str)
-                    truth (0 <= float <= 1 or None) [default=None]
-            __repr__ -- representation
-                returns:
-                    rep (str)
-            __neg__ -- negation
-                returns
-                    negation (FuzzyProposition)
-            __and__ -- conjunction
-                args:
-                    other (FuzzyProposition)
-                returns
-                    conjunction (FuzzyProposition)
-            __or__ -- disjunction
-                args:
-                    other (FuzzyProposition)
-                returns
-                    disjunction (FuzzyProposition)
-            __rshift__ -- implication
-                args:
-                    other (FuzzyProposition)
-                returns
-                    implication (FuzzyProposition)
-
 """
 
 # importing libraries
@@ -380,23 +90,6 @@ class Node:
         attributes:
             value (any type)
             link_node (Node or None) [default=None]
-        methods:
-            __init__ -- instantiate a Node object
-                args:
-                    value (any)
-                    link_node (None or None) [default=None]
-            __repr__ -- represent the object as a string
-                returns:
-                    rep (str)
-            set_link -- set a link node
-                args:
-                    link_node (Node)
-            get_link -- retrieve a link node
-                returns:
-                    link_node (Node)
-            get_value -- retrieve the value from a node
-                returns:
-                    value (any type)
     """
 
     # instantiation
@@ -457,16 +150,6 @@ class LinkedList:
     """implementation of linked list data structure
         attributes:
             head (Node)
-        methods:
-            __init__ -- instantiation
-                args:
-                    value (any type) [default=None]
-            __repr__ -- string representation
-                returns:
-                    rep (str)
-            insert_head -- add a new head node
-                args:
-                    new_value
         """
 
     # instantiation
@@ -520,22 +203,6 @@ class Stack:
     """a LIFO stack
         attributes:
             top_item (any type)
-        methods:
-            __init__ -- instantiation
-                args:
-                    bottom_value (any type) [default=None]
-            is_empty -- helper method checks if stack is empty
-                returns:
-                    empty (bool)
-            push -- add a value to the top of the stack
-                args:
-                    value (any type)
-            pop -- remove and return top item from stack
-                returns:
-                    value (any type)
-            peek -- look at top of stack
-                returns:
-                    value (any type)
     """
 
     # instantiation
@@ -626,23 +293,6 @@ class MeasuredStack(Stack):
         attributes:
             size (int >= 0)
             limit (int > 0 or None)
-        methods:
-            __init__ -- instantiation
-                parameters:
-                    bottom_value (any type) [default=None]
-                    limit (int > 0) [default=None]
-            has_space -- check if the stack is not full
-                returns:
-                    has (bool)
-            push -- add a value to the top of the stack
-                args:
-                    value (any type)
-            pop -- remove and return top item from stack
-                returns:
-                    value (any type)
-            peek
-                returns:
-                    value (any type)
     """
 
     # instantiation
@@ -711,28 +361,6 @@ class Queue:
             tail (Node or None)
             cap (int > 0 or None)
             size (int >= 0)
-        methods:
-            __init__ -- instantiation
-                args:
-                    cap (int > 0 or None) [default=None]
-            __repr__ -- string representation
-                returns:
-                    rep (str)
-            is_empty -- check if the string is empty
-                returns:
-                    empty (bool)
-            is_full -- check if queue is full
-                returns:
-                    full (bool)
-            peek -- return the leading value of the queue
-                returns:
-                    val (any type)
-            enqueue -- add a node to the queue
-                args:
-                    value(any type)
-            dequeue -- remove head and return
-                returns:
-                    value (any type)
     """
 
     # instantiation
@@ -843,21 +471,6 @@ class TreeNode:
         attributes:
             value (any type)
             children (list)
-        methods:
-            __init__ -- instantiation
-                args:
-                    value (any type)
-            __repr__ -- represent the tree as a string
-                args:
-                    level (int >= 0) [default=0]
-                returns:
-                    rep (str)
-            add_child -- add a child to the node
-                args:
-                    child (TreeNode)
-            remove_child -- remove a child from the node
-                args:
-                    child (TreeNode)
     """
 
     def __init__(self, value):
@@ -925,35 +538,6 @@ class Heap:
         attributes:
             heap_list (list)
             count (int >= 0)
-        methods:
-            __init__ -- instantiate a Heap object
-            is_empty -- check if heap is empty
-                returns:
-                    empty (bool)
-            parent_idx -- find the parent index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            left_child_idx -- find the left child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            right_child_idx -- find the right child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            add -- add an item to the heap
-                args:
-                    element (any type)
-            peek --return a copy of the top element
-                returns:
-                    val (any type)
-            pop -- remove and return top element from heap
-                returns:
-                    val (any type)
     """
 
     # instantiation
@@ -1065,42 +649,6 @@ class MinHeap(Heap):
         attributes:
             heap_list (list)
             count (int >= 0)
-        methods:
-            __init__ -- instantiate a MinHeap object
-            is_empty -- check if heap is empty
-                returns:
-                    empty (bool)
-            parent_idx -- find the parent index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            left_child_idx -- find the left child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            right_child_idx -- find the right child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            get_smaller_child_idx -- find the smaller child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            add -- add an item to the heap
-                args:
-                    element (any type)
-            heapify_up -- bubble up from bottom to order heap
-            peek -- return a copy of the top element
-                returns:
-                    val (any type)
-            pop -- remove and return minimum element from heap and resort
-                returns:
-                    mini (any type)
-            heapify_down -- bubble down from top to restore order
     """
 
     # helper method to find the index of the smaller of an element's children
@@ -1198,42 +746,6 @@ class MaxHeap(Heap):
         attributes:
             heap_list (list)
             count (int >= 0)
-        methods:
-            __init__ -- instantiate a MinHeap object
-            is_empty -- check if heap is empty
-                returns:
-                    empty (bool)
-            parent_idx -- find the parent index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            left_child_idx -- find the left child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            right_child_idx -- find the right child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            get_larger_child_idx -- find the larger child index of an element
-                args:
-                    idx (int > 0)
-                returns:
-                    idx (int > 0)
-            add -- add an item to the heap
-                args:
-                    element (any type)
-            heapify_up -- bubble up from bottom to order heap
-            peek -- return a copy of the top element
-                returns:
-                    val (any type)
-            pop -- remove and return maximum element from heap and resort
-                returns:
-                    maxi (any type)
-            heapify_down -- bubble down from top to restore order
     """
 
     # helper method to find the index of the larger of an element's children
@@ -1331,20 +843,6 @@ class Vertex:
         attributes:
             value (any)
             edges (dict)
-        methods:
-            __init__ -- instantiation
-                args:
-                    value (any)
-            get_edges -- retrieve a list of connected vertices
-                returns:
-                    edges (list)
-            __repr__ -- string representation
-                returns:
-                    rep (str)
-            add_edge -- adding an edge to a vertex
-                args:
-                    other (Vertex)
-                    weight (bool or int or float) [default=True]
     """
 
     # instantiation
@@ -1397,28 +895,7 @@ class Graph:
     """a collection of Vertex objects
         attributes:
             vertices (dict)
-            directed (bool)
-        methods:
-            __init__ -- instantiation
-                args:
-                    directed (bool) [default=False]
-            __repr__ -- string representation
-                returns:
-                    rep (str)
-            add_vertex -- add a vertex to the graph
-                args:
-                    vertex (Vertex)
-            add_edge -- add an edge to the graph
-                args:
-                    v1 (Vertex)
-                    v2 (Vertex)
-                    weight (bool or int or float) [default=True]
-            has_path -- check if there is a path between two vertices
-                args:
-                    v1 (Vertex)
-                    v2 (Vertex)
-                returns:
-                    path (bool)        
+            directed (bool)        
     """
 
     # instantiation
@@ -1542,32 +1019,6 @@ class Proposition:
         attributes:
             statement (str)
             truth (bool or None) [default=None]
-        methods:
-            __init__ -- instantiation
-                args:
-                    statement (str)
-                    truth (bool or None) [default=None]
-            __repr__ -- representation
-                returns:
-                    rep (str)
-            __neg__ -- negation
-                returns
-                    negation (Proposition)
-            __and__ -- conjunction
-                args:
-                    other (Proposition)
-                returns
-                    conjunction (Proposition)
-            __or__ -- disjunction
-                args:
-                    other (Proposition)
-                returns
-                    disjunction (Proposition)
-            __rshift__ -- implication
-                args:
-                    other (Proposition)
-                returns
-                    implication (Proposition)
     """
 
     # instantiation
@@ -1660,32 +1111,6 @@ class FuzzyProposition(Proposition):
         attributes:
             statement (str)
             truth (0 <= float <=1 or None) [default=None]
-        methods:
-            __init__ -- instantiation
-                args:
-                    statement (str)
-                    truth (0 <= float <= 1 or None) [default=None]
-            __repr__ -- representation
-                returns:
-                    rep (str)
-            __neg__ -- negation
-                returns
-                    negation (FuzzyProposition)
-            __and__ -- conjunction
-                args:
-                    other (FuzzyProposition)
-                returns
-                    conjunction (FuzzyProposition)
-            __or__ -- disjunction
-                args:
-                    other (FuzzyProposition)
-                returns
-                    disjunction (FuzzyProposition)
-            __rshift__ -- implication
-                args:
-                    other (FuzzyProposition)
-                returns
-                    implication (FuzzyProposition)
     """
 
     # instantiation
